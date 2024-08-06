@@ -4,7 +4,7 @@ let
       url = "https://github.com/nix-community/nixvim";
       ref = "nixos-24.05";
     });
-in 
+in
 {
   imports =
     [
@@ -17,7 +17,7 @@ in
     overlays = [
       (final: prev: {
         dwmblocks = prev.dwmblocks.overrideAttrs (finalAttrs: prevAttrs: {
-          src = prev.fetchFromGitHub {
+            src = prev.fetchFromGitHub {
             owner = "torrinfail";
             repo = "dwmblocks";
             rev = "58a426b68a507afd3e681f2ea70a245167d3c3fb";
@@ -111,6 +111,24 @@ in
     };
   };
 
+  systemd.user.services = {
+    copyq = {
+      enable = true;
+
+      name = "copyq";
+      description = "copyq clipboard history";
+
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+
+      serviceConfig = {
+        ExecStart = "${pkgs.copyq}/bin/copyq";
+        Restart = "always";
+        RestartSec = 3;
+      };
+    };
+  };
+
   services.xserver = {
     enable = true;
     xkb.layout = "pl";
@@ -142,12 +160,11 @@ in
     '';
 
     displayManager = {
-      # TODO: Refactor all this to reporducible systemd services
+      # TODO: Refactor all this to reproducible systemd services
       sessionCommands = ''
+        dwmblocks &disown
         $(while :; do mpc idle; pkill -RTMIN+11 dwmblocks; done) &disown
-        ${pkgs.copyq}/bin/copyq &disown
-        ${pkgs.dwmblocks}/bin/dwmblocks &disown
-	    '';
+      '';
     };
 
     windowManager.dwm = {
@@ -207,14 +224,14 @@ in
   };
 
   environment.variables = rec {
- 	  BROWSER = "brave";
-	  EDITOR = "nvim";
-	  TERMINAL = "alacritty";
-	  VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
-	  VK_ICD_FILENAMES = VK_DRIVER_FILES;
-	  __GL_SYNC_DISPLAY_DEVICE = "DP-0";
-	  __GL_SYNC_TO_VBLANK = 0;
-	  __GL_GSYNC_ALLOWED = 0;
+    BROWSER = "brave";
+    EDITOR = "nvim";
+    TERMINAL = "alacritty";
+    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
+    VK_ICD_FILENAMES = VK_DRIVER_FILES;
+    __GL_SYNC_DISPLAY_DEVICE = "DP-0";
+    __GL_SYNC_TO_VBLANK = 0;
+    __GL_GSYNC_ALLOWED = 0;
   };
 
   programs = {
@@ -258,16 +275,45 @@ in
       # nix config files have 2-width tabs
       {
         event = ["Filetype"];
-	      pattern = ["nix"];
-        command = "setlocal tabstop=2 shiftwidth=2 expandtab";
+        pattern = ["nix"];
+        command = "setlocal tabstop=2 shiftwidth=2";
       }
     ];
 
     plugins = {
-
       nvim-autopairs.enable = true;
+      indent-blankline = {
+        enable = true;
 
-      treesitter.enable = true;
+        settings = {
+          indent.tab_char = "⇥";
+        };
+      };
+
+      lualine = {
+        enable = true;
+        theme = "gruvbox-material";
+        sections = {
+          lualine_x = [ "encoding" "filetype" ];
+        };
+      };
+
+      treesitter = {
+        enable = true;
+        nixGrammars = true;
+        nixvimInjections = true;
+        ensureInstalled = [
+          "diff" "dockerfile" "awk"
+          "bash" "fish" "nix"
+          "yaml" "toml" "json"
+          "html" "css" "scss"
+          "javascript" "typescript" "tsx"
+          "c" "cpp" "rust"
+          "kotlin" "scala" "java"
+          "make" "cmake"
+        ];
+      };
+
       telescope = {
         enable = true;
         keymaps = {
@@ -281,15 +327,9 @@ in
         settings = {
 
           sources = [
-            {
-              name = "nvim_lsp";
-            }
-            {
-              name = "vsnip";
-            }
-            {
-              name = "buffer";
-            }
+            { name = "nvim_lsp"; }
+            { name = "vsnip"; }
+            { name = "buffer"; }
           ];
 
           snippets.expand = ''
@@ -306,6 +346,7 @@ in
           clangd.enable = true;
           tsserver.enable = true;
           nixd.enable = true;
+          bashls.enable = true;
           #rust-analyzer = {
           #  enable = true;
           #};
@@ -362,7 +403,7 @@ in
 
       shellInit = ''
         set fish_greeting ""
-	      fish_vi_key_bindings
+        fish_vi_key_bindings
       '';
       
       plugins = [
@@ -375,10 +416,19 @@ in
             sha256 = "GMV0GyORJ8Tt2S9wTCo2lkkLtetYv0rc19aA5KJbo48=";
           };
         }
+        {
+          name = "autopair";
+          src = pkgs.fetchFromGitHub {
+            owner = "jorgebucaran";
+            repo = "autopair.fish";
+            rev = "4d1752ff5b39819ab58d7337c69220342e9de0e2";
+            sha256 = "qt3t1iKRRNuiLWiVoiAYOu+9E7jsyECyIqZJ/oRIT1A=";
+          };
+        }
       ];
 
       shellAliases = {
-	      nix-edit = "doas \$EDITOR /etc/nixos/configuration.nix";
+        nix-edit = "doas \$EDITOR /etc/nixos/configuration.nix";
       };
     };
 
@@ -392,10 +442,10 @@ in
 
     home = {
       pointerCursor = {
-	      package = pkgs.volantes-cursors;
+        package = pkgs.volantes-cursors;
         name = "volantes_light_cursors";
-	      gtk.enable = true;
-	      x11.enable = true;
+        gtk.enable = true;
+        x11.enable = true;
       };
       sessionVariables = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${home}/.steam/root/compatibilitytools.d";
@@ -466,7 +516,7 @@ in
     nghttp2.lib
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
-    (writeScriptBin "dmenu" "${rofi}/bin/rofi -dmenu")
+    (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
   ];
 
   system.stateVersion = "24.05"; # DON'T CHANGE

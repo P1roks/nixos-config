@@ -1,4 +1,4 @@
-From a9bc47991a6534abc27a85c19bf299a6a3e2f739 Mon Sep 17 00:00:00 2001
+From 881f2519478511f495d962ef0dcf36a7e25c5ee5 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
 Subject: [PATCH] My custom dwm config
@@ -170,7 +170,7 @@ index 95d4fd0..0000000
 -The configuration of dwm is done by creating a custom config.h
 -and (re)compiling the source code.
 diff --git a/config.def.h b/config.def.h
-index 9efa774..be4f730 100644
+index 9efa774..5679719 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,13 +1,19 @@
@@ -275,8 +275,8 @@ index 9efa774..be4f730 100644
 +	{ False,		       XK_Print,  spawn,	   {.v = (const char*[]) { "gscreenshot", "-c",NULL } } },
 +	{ SUPER,		       XK_Print,  spawn,	   {.v = (const char*[]) { "gscreenshot", "-s", "-c",NULL } } },
 +	{ SUPER|ShiftMask,	       XK_Print,  spawn,	   {.v = (const char*[]) { "gscreenshot", "-s", "-c", "-f", "screenshots/",NULL } } },
-+	{ MODKEY,		       XK_Print,  spawn,	   {.v = (const char*[]) { "gscreenshot", "-c", "-f", "screenshots/",NULL } } },
-+	{ False,		       XK_Menu,  spawn,	   {.v = (const char*[]) { "copyq", "menu",NULL } } },
++	{ MODKEY,		               XK_Print,  spawn,	   {.v = (const char*[]) { "gscreenshot", "-c", "-f", "screenshots/",NULL } } },
++	{ False,		               XK_Menu,  spawn,	    SHCMD("copyq menu") },
 +	{ SUPER|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 +	{ SUPER,                       XK_b,      togglebar,      {0} },
 +	{ SUPER,                       XK_j,      focusstack,     {.i = +1 } },
