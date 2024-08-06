@@ -1,0 +1,156 @@
+From 92b7c450844d6b9fc64c94c05f90b835734ebf28 Mon Sep 17 00:00:00 2001
+From: P1roks <piotrekjakobczyk1@gmail.com>
+Date: Tue, 30 Jul 2024 17:38:06 +0200
+Subject: [PATCH] my dwmblocks
+
+---
+ blocks.def.h                | 13 ++++++----
+ dwmblocks.c                 | 47 ++++++++++++++++++++++++++++++++++++-
+ xgetrootname/xgetrootname.c | 21 +++++++++++++++++
+ 3 files changed, 76 insertions(+), 5 deletions(-)
+ create mode 100644 xgetrootname/xgetrootname.c
+
+diff --git a/blocks.def.h b/blocks.def.h
+index dbb3305..a39cde3 100644
+--- a/blocks.def.h
++++ b/blocks.def.h
+@@ -1,11 +1,16 @@
+ //Modify this file to change what commands output to your statusbar, and recompile using the make command.
+ static const Block blocks[] = {
+ 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
+-	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
+-
+-	{"", "date '+%b %d (%a) %I:%M%p'",					5,		0},
++//	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
++	{"", "/home/piroks/scripts/sb-music",			0,		11},
++	{"", "date '+%H:%M'",					60,		1},
++//	{"", "sb-eye",							0,		13},
++//	{"", "internet.fish",						5,		2},
++//	{"", "sb-timetable",						0,		15},
++//	{"", "sb-kbd",							0,		3},
++//	{"", "sb-disk",						0,		4},
+ };
+ 
+-//sets delimiter between status commands. NULL character ('\0') means no delimiter.
++//sets delimeter between status commands. NULL character ('\0') means no delimeter.
+ static char delim[] = " | ";
+ static unsigned int delimLen = 5;
+diff --git a/dwmblocks.c b/dwmblocks.c
+index befd252..4501ac4 100644
+--- a/dwmblocks.c
++++ b/dwmblocks.c
+@@ -34,6 +34,7 @@ void setupsignals();
+ void sighandler(int signum);
+ int getstatus(char *str, char *last);
+ void statusloop();
++void buttonhandler(int sig, siginfo_t *si, void *ucontext);
+ void termhandler();
+ void pstdout();
+ #ifndef NO_X
+@@ -58,8 +59,15 @@ static int returnStatus = 0;
+ //opens process *cmd and stores output in *output
+ void getcmd(const Block *block, char *output)
+ {
++	if (block->signal)
++	{
++		output[0] = block->signal;
++		output++;
++	}
+ 	strcpy(output, block->icon);
+-	FILE *cmdf = popen(block->command, "r");
++
++	char *cmd = block->command;
++	FILE *cmdf = popen(cmd,"r");
+ 	if (!cmdf)
+ 		return;
+ 	int i = strlen(block->icon);
+@@ -102,6 +110,7 @@ void getsigcmds(unsigned int signal)
+ 
+ void setupsignals()
+ {
++	struct sigaction sa;
+ #ifndef __OpenBSD__
+ 	    /* initialize all real time signals with dummy handler */
+     for (int i = SIGRTMIN; i <= SIGRTMAX; i++)
+@@ -110,8 +119,16 @@ void setupsignals()
+ 
+ 	for (unsigned int i = 0; i < LENGTH(blocks); i++) {
+ 		if (blocks[i].signal > 0)
++		{
+ 			signal(SIGMINUS+blocks[i].signal, sighandler);
++			sigaddset(&sa.sa_mask, SIGRTMIN+blocks[i].signal);
++		}
+ 	}
++	sa.sa_sigaction = buttonhandler;
++	sa.sa_flags = SA_SIGINFO;
++	sigaction(SIGUSR1, &sa, NULL);
++	signal(SIGCHLD, SIG_IGN);
++
+ 
+ }
+ 
+@@ -145,6 +162,34 @@ int setupX()
+ 	root = RootWindow(dpy, screen);
+ 	return 1;
+ }
++
++void buttonhandler(int sig, siginfo_t *si, void *ucontext)
++{
++	int button = si->si_value.sival_int & 0xff;
++	sig = si->si_value.sival_int >> 8;
++	getsigcmds(sig);
++	writestatus();
++	if (fork() == 0)
++	{
++		static char exportstring[CMDLENGTH + 22] = "export BLOCK_BUTTON=-;";
++		const Block *current;
++		int i;
++		for (i = 0; i < LENGTH(blocks); i++)
++		{
++			current = blocks + i;
++			if (current->signal == sig)
++				break;
++		}
++		char *cmd = strcat(exportstring, blocks[i].command);
++		cmd[20] = '0' + button;
++		char *command[] = { "/bin/sh", "-c", cmd, NULL };
++		setsid();
++		execvp(command[0], command);
++		exit(EXIT_SUCCESS);
++		cmd[22] = '\0';
++	}
++}
++
+ #endif
+ 
+ void pstdout()
+diff --git a/xgetrootname/xgetrootname.c b/xgetrootname/xgetrootname.c
+new file mode 100644
+index 0000000..6359d08
+--- /dev/null
++++ b/xgetrootname/xgetrootname.c
+@@ -0,0 +1,21 @@
++#include <stdio.h>
++#include <X11/Xlib.h>
++
++int
++main(void)
++{
++        char *name;
++        Display *dpy;
++
++        if (!(dpy = XOpenDisplay(NULL))) {
++                fputs("Error: could not open display.\n", stderr);
++                return 1;
++        }
++        if (XFetchName(dpy, DefaultRootWindow(dpy), &name) && name)
++                puts(name);
++        else
++                fputs("No name has been set for the root window.\n", stderr);
++        XFree(name);
++        XCloseDisplay(dpy);
++        return 0;
++}
+-- 
+2.44.1
+
