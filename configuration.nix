@@ -127,6 +127,18 @@ in
         RestartSec = 3;
       };
     };
+
+    redshift = {
+      name = "redshift";
+      description = "one-shot, simple way to trigger night mode";
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.redshift}/bin/redshift -O 4500K";
+        ExecStop = "${pkgs.redshift}/bin/redshift -x";
+      };
+    };
   };
 
   services.xserver = {
@@ -215,12 +227,24 @@ in
   };
 
   users = {
-    defaultUserShell = pkgs.fish;
     users.piroks = {
       isNormalUser = true;
       shell = pkgs.fish;
       extraGroups = [ "wheel" "audio" ];
     };
+  };
+
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    ensureUsers = [
+      {
+        name = "piroks";
+        ensurePermissions = {
+          "*.*" = "ALL PRIVILEGES";
+        };
+      }
+    ];
   };
 
   environment.variables = rec {
@@ -398,6 +422,10 @@ in
       userEmail = "piotrekjakobczyk1@gmail.com";
     };
 
+    programs.gh = {
+      enable = true;
+    };
+
     programs.fish = {
       enable = true;
 
@@ -464,9 +492,8 @@ in
     gnumake
     libgcc
     rustup
-    gh
-    git
     alacritty
+    mycli
     # graphics
     gimp
     inkscape
@@ -503,6 +530,7 @@ in
     xdotool
     jmtpfs
     qbittorrent
+    bat
     # gaming
     heroic
     mangohud
@@ -514,6 +542,10 @@ in
     libidn2
     libpsl
     nghttp2.lib
+    p7zip
+    # scripts
+    (import ./scripts/blocks/music.nix)
+    (import ./scripts/blocks/eye.nix)
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
@@ -521,4 +553,3 @@ in
 
   system.stateVersion = "24.05"; # DON'T CHANGE
 }
-
