@@ -3,6 +3,7 @@ with import <nixpkgs> {};
 
 let
   mpc = "${pkgs.mpc-cli}/bin/mpc";
+  pkill = "${pkgs.procps}/bin/pkill";
 in
 writeShellScriptBin "sb-music" ''
   filter() { ${mpc} -f "%title%" | sed "/^volume:/d;s/\\&/&/g;s/\\[paused\\].*//g;/\\[playing\\].*/d;/^ERROR/Q" | paste -sd ' ' -;}
@@ -16,7 +17,7 @@ writeShellScriptBin "sb-music" ''
 
   pidof -x sb-mpdup >/dev/null 2>&1 || sb-mpdup >/dev/null 2>&1 &
 
-  case $BLOCK_BUTTON in
+  case "$BLOCK_BUTTON" in
     ${leftMouseButton}) ${mpc} toggle | filter ;;
     ${rightMouseButton}) ${mpc} status | filter; notify-send "playlist" "$(${mpc} playlist | tail -n +$(mpc -f "%position%" | head -n 1) | sed -r "1s|(.*)|<span color=\"red\">\1</span>|")";;
     ${scrollClick}) ${mpc} -p 6601 status | awk 'NR==1 {split($0,a,"/"); print a[2]} NR==2 {print $3}' | xargs -d '\n' notify-send ;;  # right click, show currently playing podcast
@@ -26,6 +27,10 @@ writeShellScriptBin "sb-music" ''
     ${rightMouseButtonControl}) choseplaylist ;; # 
     ${scrollUpControl}) ${mpc} volume +10 ;;
     ${scrollDownControl}) ${mpc} volume -10 ;;
-    *) mpc status | filter ;;
+    *) ${mpc} status | filter ;;
   esac
+
+  if [ -n "$BLOCK_BUTTON" ]; then
+    ${pkill} -RTMIN+11 dwmblocks
+  fi
 ''

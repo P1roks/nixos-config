@@ -1,4 +1,4 @@
-From 0201445afccf829442d7465c40893dccbbe55478 Mon Sep 17 00:00:00 2001
+From d4d1e0c61981e0112d4568079943a2bdda4405ee Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Tue, 30 Jul 2024 17:38:06 +0200
 Subject: [PATCH] my dwmblocks
@@ -11,7 +11,7 @@ Subject: [PATCH] my dwmblocks
  create mode 100644 xgetrootname/xgetrootname.c
 
 diff --git a/blocks.def.h b/blocks.def.h
-index dbb3305..78d1649 100644
+index dbb3305..07e312d 100644
 --- a/blocks.def.h
 +++ b/blocks.def.h
 @@ -1,11 +1,17 @@
@@ -25,7 +25,7 @@ index dbb3305..78d1649 100644
 +//	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
 +    {"", "sb-music",			0,		11},
 +    {"", "sb-eye",			    0,      12},
-+    {"", "date '+%H:%M'",       60,		1},
++    {"", "sb-time",             60,		1},
 +//	{"", "sb-eye",							0,		13},
 +//	{"", "internet.fish",						5,		2},
 +//	{"", "sb-timetable",						0,		15},

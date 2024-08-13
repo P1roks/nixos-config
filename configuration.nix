@@ -112,7 +112,10 @@ in
   };
 
   systemd.user.services = {
-    copyq = {
+    copyq =
+    let
+      copyq = "${pkgs.copyq}/bin/copyq";
+    in {
       enable = true;
 
       name = "copyq";
@@ -122,23 +125,47 @@ in
       partOf = [ "graphical-session.target" ];
 
       serviceConfig = {
-        ExecStart = "${pkgs.copyq}/bin/copyq";
+        ExecStart = copyq;
         Restart = "always";
         RestartSec = 3;
       };
     };
 
-    redshift = {
+    dwmblocks =
+    let
+      dwmblocks = "${pkgs.dwmblocks}/bin/dwmblocks";
+    in {
+      enable = true;
+
+      name = "dwmblocks";
+      description = "interactive status bar for dwm";
+
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      path = [ "/run/current-system/sw" ];
+
+      serviceConfig = {
+        ExecStart = dwmblocks;
+        Restart = "always";
+        RestartSec = 3;
+      };
+    };
+
+    redshift =
+    let
+      redshift = "${pkgs.redshift}/bin/redshift";
+    in {
       name = "redshift";
       description = "one-shot, simple way to trigger night mode";
 
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecStart = "${pkgs.redshift}/bin/redshift -O 4500K";
-        ExecStop = "${pkgs.redshift}/bin/redshift -x";
+        ExecStart = "${redshift} -O 4500K";
+        ExecStop = "${redshift} -x";
       };
     };
+
   };
 
   services.xserver = {
@@ -170,14 +197,6 @@ in
       Option         "MultiGPU" "Off"
       Option         "BaseMosaic" "off"
     '';
-
-    displayManager = {
-      # TODO: Refactor all this to reproducible systemd services
-      sessionCommands = ''
-        dwmblocks &disown
-        $(while :; do mpc idle; pkill -RTMIN+11 dwmblocks; done) &disown
-      '';
-    };
 
     windowManager.dwm = {
       enable = true;
@@ -306,6 +325,34 @@ in
 
     plugins = {
       nvim-autopairs.enable = true;
+      comment.enable = true;
+
+      nvim-colorizer = {
+        enable = true;
+
+        fileTypes = [
+          "*"
+          {
+            language = "css";
+            names = true;
+            css = true;
+          }
+          {
+            language = "scss";
+            names = true;
+            css = true;
+          }
+        ];
+
+        userDefaultOptions = {
+          RGB = true;
+          RRGGBB = true;
+          names = false;
+          RRGGBBAA = true;
+          AARRGGBB = true;
+        };
+      };
+
       indent-blankline = {
         enable = true;
 
@@ -414,6 +461,49 @@ in
           name "Sound server"
         }
       '';
+    };
+
+    services.dunst = {
+      enable = true;
+      settings = {
+        global = {
+          monitor = 0;
+          follow = "mouse";
+          width = 300;
+          height = 300;
+          origin = "top-right";
+          offset = "10x50";
+          scale = 0;
+          notificaton_limit = 0;
+          progress_bar = true;
+          padding = 8;
+          frame_color = "AAAAAA";
+          separator_color = "frame";
+          font = "Iosevka 14";
+          markup = "full";
+          alignment = "center";
+          vertical_alignment = "center";
+        };
+
+        urgency_low = {
+          background = "#282828";
+          foreground = "#EBDBB2";
+          timeout = 5;
+        };
+
+        urgency_normal = {
+          background = "#282828";
+          foreground = "#EBDBB2";
+          timeout = 5;
+        };
+
+        urgency_critical = {
+          background = "#282828";
+          foreground = "#EBDBB2";
+          frame_color = "#FF0000";
+          timeout = 0;
+        };
+      };
     };
 
     programs.git = {
@@ -531,6 +621,8 @@ in
     jmtpfs
     qbittorrent
     bat
+    libnotify
+    sxiv
     # gaming
     heroic
     mangohud
@@ -546,6 +638,7 @@ in
     # scripts
     (import ./scripts/blocks/music.nix)
     (import ./scripts/blocks/eye.nix)
+    (import ./scripts/blocks/time.nix)
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
