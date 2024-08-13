@@ -3,7 +3,6 @@ with import <nixpkgs> {};
 
 let
   mpc = "${pkgs.mpc-cli}/bin/mpc";
-  pkill = "${pkgs.procps}/bin/pkill";
 in
 writeShellScriptBin "sb-music" ''
   filter() { ${mpc} -f "%title%" | sed "/^volume:/d;s/\\&/&/g;s/\\[paused\\].*//g;/\\[playing\\].*/d;/^ERROR/Q" | paste -sd ' ' -;}
@@ -29,8 +28,4 @@ writeShellScriptBin "sb-music" ''
     ${scrollDownControl}) ${mpc} volume -10 ;;
     *) ${mpc} status | filter ;;
   esac
-
-  if [ -n "$BLOCK_BUTTON" ]; then
-    ${pkill} -RTMIN+11 dwmblocks
-  fi
 ''

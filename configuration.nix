@@ -151,6 +151,27 @@ in
       };
     };
 
+    mpdIdle =
+    let
+      mpc = "${pkgs.mpc-cli}/bin/mpc";
+      pkill = "${pkgs.procps}/bin/pkill";
+    in {
+      enable = true;
+
+      name = "mpd-idle";
+      description = "";
+
+      wantedBy = [ "default.target" ];
+      after = [ "mpd.service" ]; 
+
+      script = ''
+        while :; do
+          ${mpc} idle
+          ${pkill} -RTMIN+11 dwmblocks
+        done
+      '';
+    };
+
     redshift =
     let
       redshift = "${pkgs.redshift}/bin/redshift";
