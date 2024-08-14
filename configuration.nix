@@ -335,6 +335,10 @@ in
       expandtab = true;
     };
 
+    globals = {
+      leader = "<Space>";
+    };
+
     autoCmd = [
       # nix config files have 2-width tabs
       {
@@ -410,30 +414,66 @@ in
         enable = true;
         keymaps = {
             "<c-p>".action = "find_files";
+            "<c-P>".action = "oldfiles";
+            gl.action = "treesitter";
+            gr.action = "lsp_references";
+            gi.action = "lsp_implementations";
+            gd.action = "lsp_definitions";
+            gt.action = "lsp_type_definitions";
         };
       };
 
-      cmp-vsnip.enable = true;
+      luasnip = {
+        enable = true;
+        fromVscode = [ {} ];
+      };
+
+      cmp_luasnip.enable = true;
+      cmp-nvim-lsp.enable = true;
+      cmp-buffer.enable = true;
       cmp = {
         enable = true;
+        autoEnableSources = true;
+
         settings = {
+          snippet.expand = ''
+            function(args)
+              require('luasnip').lsp_expand(args.body)
+            end
+          '';
 
           sources = [
             { name = "nvim_lsp"; }
-            { name = "vsnip"; }
+            { name = "luasnip"; }
             { name = "buffer"; }
           ];
 
-          snippets.expand = ''
-            function(args)
-              vim.fn["vsnip#anonymous"](args.body)
-            end
-          '';
+          mapping = {
+            "<Enter>" = "cmp.mapping.confirm({ select = true })";
+            "<C-e>" = "cmp.mapping.close()";
+            "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+            "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<C-b>" = "cmp.mapping.scroll_docs(4)";
+          };
+
+          experimental = {
+            ghost_text = true;
+          };
         };
       };
 
       lsp = {
         enable = true;
+
+        keymaps = {
+          lspBuf = {
+            gD = "declaration";
+            K = "hover";
+            "<leader>gr" = "rename";
+          };
+        };
+
         servers = {
           clangd.enable = true;
           tsserver.enable = true;
@@ -450,6 +490,9 @@ in
       {
         plugin = nvim-surround;
         config = ''lua require("nvim-surround").setup({})'';
+      }
+      {
+        plugin = friendly-snippets;
       }
     ];
   };
