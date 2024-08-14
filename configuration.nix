@@ -513,11 +513,105 @@ in
       '';
     };
 
+    xdg = {
+      enable = true;
+
+      desktopEntries = {
+        ranger-open =
+        let
+          alacritty = "${pkgs.alacritty}/bin/alacritty";
+          ranger = "${pkgs.ranger}/bin/ranger";
+        in {
+          type = "Application";
+          name = "ranger";
+          terminal = false;
+          exec = "${alacritty} -e ${ranger} %f";
+          categories = [ "ConsoleOnly" "System" "FileTools" "FileManager" ];
+          mimeType = [ "inode/directory" ];
+          settings = {
+            Keywords = "File;Manager;Browser;Explorer;Launcher;Vi;Vim;Python";
+          };
+        };
+
+        mpv-audio =
+        let
+          alacritty = "${pkgs.alacritty}/bin/alacritty";
+          mpv = "${pkgs.mpv}/bin/mpv";
+        in {
+          type = "Application";
+          name = "mpv-audio";
+          terminal = false;
+          exec = "${alacritty} -e ${mpv} --no-video %f";
+          categories = [ "ConsoleOnly" "System" "FileTools" "FileManager" ];
+          mimeType = [ "audio/aac" "audio/midi" "audio/x-midi" "audio/mpeg" "audio/ogg" "audio/wav" "audio/webm" "audio/3gpp" "audio/3gpp2" ];
+        };
+      };
+
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "inode/directory" = [ "ranger-open.desktop" ];
+          "audio/aac" = [ "mpv-audio.desktop" ];
+          "audio/midi" = [ "mpv-audio.desktop" ];
+          "audio/x-midi" = [ "mpv-audio.desktop" ];
+          "audio/mpeg" = [ "mpv-audio.desktop" ];
+          "audio/ogg" = [ "mpv-audio.desktop" ];
+          "audio/wav" = [ "mpv-audio.desktop" ];
+          "audio/webm" = [ "mpv-audio.desktop" ];
+          "audio/3gpp" = [ "mpv-audio.desktop" ];
+          "audio/3gpp2" = [ "mpv-audio.desktop" ];
+          "image/bmp" = [ "sxiv.desktop" ];
+          "image/gif" = [ "sxiv.desktop" ];
+          "image/jpeg" = [ "sxiv.desktop" ];
+          "image/jpg" = [ "sxiv.desktop" ];
+          "image/png" = [ "sxiv.desktop" ];
+          "image/webp" = [ "sxiv.desktop" ];
+          "image/tiff" = [ "sxiv.desktop" ];
+          "image/x-bmp" = [ "sxiv.desktop" ];
+          "image/x-portable-anymap" = [ "sxiv.desktop" ];
+          "image/x-portable-bitmap" = [ "sxiv.desktop" ];
+          "image/x-portable-graymFap" = [ "sxiv.desktop" ];
+          "image/x-tga" = [ "sxiv.desktop" ];
+          "image/x-xpixmap" = [ "sxiv.desktop" ];
+          "text/x-dbus-service" = [ "nvim.desktop" ];
+          "text/english" = [ "nvim.desktop" ];
+          "text/plain" = [ "nvim.desktop" ];
+          "text/x-makefile" = [ "nvim.desktop" ];
+          "text/x-c++hdr" = [ "nvim.desktop" ];
+          "text/x-c++src" = [ "nvim.desktop" ];
+          "text/x-chdr" = [ "nvim.desktop" ];
+          "text/x-csrc" = [ "nvim.desktop" ];
+          "text/x-java" = [ "nvim.desktop" ];
+          "text/x-moc" = [ "nvim.desktop" ];
+          "text/x-pascal" = [ "nvim.desktop" ];
+          "text/x-tcl" = [ "nvim.desktop" ];
+          "text/x-tex" = [ "nvim.desktop" ];
+          "application/x-shellscript" = [ "nvim.desktop" ];
+          "text/x-c" = [ "nvim.desktop" ];
+          "text/x-c++" = [ "nvim.desktop" ];
+        };
+      };
+
+      userDirs = {
+        enable = true;
+        desktop = "${home}/desktop";
+        documents = "${home}/documents";
+        download = "${home}/downloads";
+        music = "${home}/music";
+        pictures = "${home}/pictures";
+        videos = "${home}/videos";
+        publicShare = "${home}/public";
+        templates = "${home}/templates";
+        extraConfig = {
+          XDG_GAMES_DIR = "${home}/games";
+        };
+      };
+    };
 
     services.mpd =
     {
       enable = true;
-      musicDirectory = "${home}/Music";
+      musicDirectory = "${home}/music";
       dataDir = "${home}/.config/mpd";
       extraConfig = ''
         audio_output {
