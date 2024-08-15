@@ -32,6 +32,29 @@ in
       leader = "<Space>";
     };
 
+    keymaps = [
+      {
+        key = "j";
+        action = "gj";
+        mode = "n";
+      }
+      {
+        key = "gj";
+        action = "j";
+        mode = "n";
+      }
+      {
+        key = "k";
+        action = "gk";
+        mode = "n";
+      }
+      {
+        key = "gk";
+        action = "k";
+        mode = "n";
+      }
+    ];
+
     autoCmd = [
       # nix config files have 2-width tabs
       {

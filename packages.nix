@@ -42,7 +42,7 @@
     neofetch
     rofi
     vesktop
-    gscreenshot
+    scrot
     dwmblocks
     # GPU
     vulkan-tools
@@ -87,6 +87,8 @@
     (import ./scripts/blocks/music.nix)
     (import ./scripts/blocks/eye.nix)
     (import ./scripts/blocks/time.nix)
+    (import ./scripts/screenshot.nix)
+    (import ./scripts/books.nix)
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
