@@ -12,6 +12,7 @@
   in
   {
     imports = [
+      ./mpd-cast.nix
       ./xdg.nix
     ];
 
@@ -27,8 +28,21 @@
     services.mpd =
     {
       enable = true;
-      musicDirectory = "${home}/music";
       dataDir = "${home}/.config/mpd";
+      extraConfig = ''
+        audio_output {
+          type "pulse"
+          name "Sound server"
+        }
+      '';
+    };
+
+    services.mpd-cast =
+    {
+      enable = true;
+      dataDir = "${home}/.config/mpd";
+      dbFile = null;
+      network.port = 6601;
       extraConfig = ''
         audio_output {
           type "pulse"

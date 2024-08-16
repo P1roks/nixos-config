@@ -91,6 +91,7 @@
     (import ./scripts/books.nix)
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
+    (writeScriptBin "podcast" ''mpc -p 6601 "$@"'')
     (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
   ];
 }

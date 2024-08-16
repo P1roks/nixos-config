@@ -1,7 +1,7 @@
 {
   leftMouseButton = "1";
-  rightMouseButton = "2";
-  scrollClick = "3";
+  scrollClick = "2";
+  rightMouseButton = "3";
   scrollUp = "4";
   scrollDown = "5";
   leftMouseButtonControl = "6";
