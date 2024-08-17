@@ -2,9 +2,6 @@
 {
   nixpkgs = {
     config = {
-      element-desktop.conf = {
-        default_theme = "dark";
-      };
       allowUnfree = true;
     };
   };

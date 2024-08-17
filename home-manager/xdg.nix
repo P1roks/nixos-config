@@ -90,6 +90,7 @@ in
         "text/x-tcl" = [ "nvim.desktop" ];
         "text/x-tex" = [ "nvim.desktop" ];
         "application/x-shellscript" = [ "nvim.desktop" ];
+        "application/sql" = [ "nvim.desktop" ];
         "text/x-c" = [ "nvim.desktop" ];
         "text/x-c++" = [ "nvim.desktop" ];
       };

@@ -29,7 +29,7 @@ in
     };
 
     globals = {
-      leader = "<Space>";
+      mapleader = "<Space>";
     };
 
     keymaps = [
@@ -188,7 +188,7 @@ in
           lspBuf = {
             gD = "declaration";
             K = "hover";
-            "<leader>gr" = "rename";
+            "gR" = "rename";
           };
         };
 
