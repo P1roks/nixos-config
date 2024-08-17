@@ -1,23 +1,10 @@
 { pkgs, ... }:
 {
   nixpkgs = {
-    overlays = [
-      (final: prev: {
-        dwmblocks = prev.dwmblocks.overrideAttrs (finalAttrs: prevAttrs: {
-            src = prev.fetchFromGitHub {
-            owner = "torrinfail";
-            repo = "dwmblocks";
-            rev = "58a426b68a507afd3e681f2ea70a245167d3c3fb";
-            sha256 = "CtDVb6/8/iktDkWnhIgi0Z3SyckZBCq5dsukFKEHahw=";
-          };
-          patches = [
-            /etc/nixos/patches/dwmblocks.patch
-          ];
-        });
-      })
-    ];
-
     config = {
+      element-desktop.conf = {
+        default_theme = "dark";
+      };
       allowUnfree = true;
     };
   };
@@ -42,8 +29,8 @@
     neofetch
     rofi
     vesktop
+    element-desktop
     scrot
-    dwmblocks
     # GPU
     vulkan-tools
     vulkan-loader
@@ -84,9 +71,6 @@
     nghttp2.lib
     p7zip
     # scripts
-    (import ./scripts/blocks/music.nix)
-    (import ./scripts/blocks/eye.nix)
-    (import ./scripts/blocks/time.nix)
     (import ./scripts/screenshot.nix)
     (import ./scripts/books.nix)
     # "symlinks"

@@ -3,8 +3,9 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./home-manager/default.nix
+      ./home-manager
       ./nixvim.nix
+      ./dwmblocks
       ./services.nix
       ./packages.nix
     ];

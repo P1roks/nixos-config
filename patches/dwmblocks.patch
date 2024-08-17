@@ -1,14 +1,12 @@
-From d4d1e0c61981e0112d4568079943a2bdda4405ee Mon Sep 17 00:00:00 2001
+From da0771c435092ce1ef4d3c3fa552cdf6a6d111af Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Tue, 30 Jul 2024 17:38:06 +0200
 Subject: [PATCH] my dwmblocks
 
 ---
- blocks.def.h                | 16 +++++++++----
- dwmblocks.c                 | 47 ++++++++++++++++++++++++++++++++++++-
- xgetrootname/xgetrootname.c | 21 +++++++++++++++++
- 3 files changed, 78 insertions(+), 6 deletions(-)
- create mode 100644 xgetrootname/xgetrootname.c
+ blocks.def.h | 16 +++++++++++-----
+ dwmblocks.c  | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 57 insertions(+), 6 deletions(-)
 
 diff --git a/blocks.def.h b/blocks.def.h
 index dbb3305..07e312d 100644
@@ -126,33 +124,6 @@ index befd252..4501ac4 100644
  #endif
  
  void pstdout()
-diff --git a/xgetrootname/xgetrootname.c b/xgetrootname/xgetrootname.c
-new file mode 100644
-index 0000000..6359d08
---- /dev/null
-+++ b/xgetrootname/xgetrootname.c
-@@ -0,0 +1,21 @@
-+#include <stdio.h>
-+#include <X11/Xlib.h>
-+
-+int
-+main(void)
-+{
-+        char *name;
-+        Display *dpy;
-+
-+        if (!(dpy = XOpenDisplay(NULL))) {
-+                fputs("Error: could not open display.\n", stderr);
-+                return 1;
-+        }
-+        if (XFetchName(dpy, DefaultRootWindow(dpy), &name) && name)
-+                puts(name);
-+        else
-+                fputs("No name has been set for the root window.\n", stderr);
-+        XFree(name);
-+        XCloseDisplay(dpy);
-+        return 0;
-+}
 -- 
 2.44.1
 
