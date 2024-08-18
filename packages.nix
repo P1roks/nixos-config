@@ -55,6 +55,7 @@
     libnotify
     sxiv
     ripgrep
+    yt-dlp
     # gaming
     heroic
     mangohud

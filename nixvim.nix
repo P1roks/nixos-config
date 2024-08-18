@@ -67,6 +67,7 @@ in
     plugins = {
       nvim-autopairs.enable = true;
       comment.enable = true;
+      mini.enable = true;
 
       nvim-colorizer = {
         enable = true;
@@ -211,6 +212,32 @@ in
       }
       {
         plugin = friendly-snippets;
+      }
+      {
+        plugin = pkgs.vimUtils.buildVimPlugin {
+          name = "render-markdown";
+          src = pkgs.fetchFromGitHub {
+            owner = "MeanderingProgrammer";
+            repo = "render-markdown.nvim";
+            rev = "11b92a6be7e3d848d4f7467f6edb5578c60bcad2";
+            sha256 = "sZIOdcZ6pchu6wMo7THaRV6TG9rEnnpe6iUyHZPHf5c=";
+          };
+        };
+        config = ''
+        lua << EOF
+          require('render-markdown').setup({
+            file_types = { 'markdown' },
+            render_modes = { 'n', 'c' },
+            overrides = {
+             buftype = {
+              nofile = {
+                sign = { enabled = false },
+              },
+             },
+            },
+          })
+        EOF
+        '';
       }
     ];
   };

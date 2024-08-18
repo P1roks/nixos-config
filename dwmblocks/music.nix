@@ -9,7 +9,7 @@
       pkgs.writeShellScriptBin "sb-music" ''
         filter() { ${mpc} -f "%title%" | sed "/^volume:/d;s/\\&/&/g;s/\\[paused\\].*//g;/\\[playing\\].*/d;/^ERROR/Q" | paste -sd ' ' -;}
         choseplaylist() {
-          choice="$(${mpc} lsplaylist | sort | ${rofi}/bin/rofi -dmenu -i )";
+          choice="$(${mpc} lsplaylist | sort | ${rofi} -dmenu -i )";
           if test -n "$choice"
           then
             ${mpc} clear && ${mpc} load "$choice" && ${mpc} play;
