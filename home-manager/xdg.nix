@@ -80,6 +80,7 @@ in
         "text/english" = [ "nvim.desktop" ];
         "text/plain" = [ "nvim.desktop" ];
         "text/x-makefile" = [ "nvim.desktop" ];
+        "text/x-lua" = [ "nvim.desktop" ];
         "text/x-c++hdr" = [ "nvim.desktop" ];
         "text/x-c++src" = [ "nvim.desktop" ];
         "text/x-chdr" = [ "nvim.desktop" ];

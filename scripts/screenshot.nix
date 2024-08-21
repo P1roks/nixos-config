@@ -29,7 +29,7 @@ writeShellScriptBin "pshot" ''
           fi
           out_dir=$(extract_argument "$@")
           out_dir=''${out_dir%/}
-          shift
+          test "$1" = "-f" && shift
           ;;
 
         -s | --select)

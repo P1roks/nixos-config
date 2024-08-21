@@ -20,8 +20,8 @@
 
         case "$BLOCK_BUTTON" in
           ${leftMouseButton}) ${mpc} toggle | filter ;;
-          ${rightMouseButton}) ${mpc} status | filter; notify-send "playlist" "$(${mpc} playlist | tail -n +$(${mpc} -f "%position%" | head -n 1) | sed -r "1s|(.*)|<span color=\"red\">\1</span>|")";;
-          ${scrollClick}) ${mpc} -p 6601 status | awk 'NR==1 {split($0,a,"/"); print a[2]} NR==2 {print $3}' | xargs -d '\n' notify-send ;;  # right click, show currently playing podcast
+          ${scrollClick}) ${mpc} status | filter; notify-send "playlist" "$(${mpc} playlist | tail -n +$(${mpc} -f "%position%" | head -n 1) | sed -r "1s|(.*)|<span color=\"red\">\1</span>|")";;
+          ${rightMouseButton}) ${mpc} -p 6601 status | awk 'NR==1 {split($0,a,"/"); print a[2]} NR==2 {print $3}' | xargs -d '\n' notify-send ;;  # right click, show currently playing podcast
           ${scrollUp}) ${mpc} prev | filter ;;  # scroll up, previous
           ${scrollDown}) ${mpc} next | filter ;;  # scroll down, next
           ${leftMouseButtonControl}) ${mpc} stop ;; # ctrl + left click - stop displaying song title

@@ -41,6 +41,8 @@
     pavucontrol
     mpc-cli
     mpv
+    ncmpcpp
+    python312Packages.mutagen
     # utility
     calc
     redshift
@@ -56,6 +58,11 @@
     sxiv
     ripgrep
     yt-dlp
+    # archives
+    p7zip
+    unrar
+    unzip
+    atool
     # gaming
     heroic
     mangohud
@@ -67,10 +74,11 @@
     libidn2
     libpsl
     nghttp2.lib
-    p7zip
     # scripts
     (import ./scripts/screenshot.nix)
     (import ./scripts/books.nix)
+    (import ./scripts/add-album.nix)
+    (import ./scripts/tag-album.nix)
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "podcast" ''mpc -p 6601 "$@"'')
