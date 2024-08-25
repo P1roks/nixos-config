@@ -1,25 +1,5 @@
 { pkgs, ... }:
 {
-  systemd.user.services.dwmblocks = 
-  let
-    dwmblocks = "${pkgs.dwmblocks}/bin/dwmblocks";
-  in
-  {
-    enable = true;
-
-    description = "interactive status bar for dwm";
-
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    path = [ "/run/current-system/sw" ];
-
-    serviceConfig = {
-      ExecStart = dwmblocks;
-      Restart = "always";
-      RestartSec = 3;
-    };
-  };
-
   systemd.user.services.copyqq = 
   let
       copyq = "${pkgs.copyq}/bin/copyq";

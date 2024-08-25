@@ -1,40 +1,12 @@
-From da0771c435092ce1ef4d3c3fa552cdf6a6d111af Mon Sep 17 00:00:00 2001
+From beb15d7a644ca550824323188265f80b04b894a1 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Tue, 30 Jul 2024 17:38:06 +0200
 Subject: [PATCH] my dwmblocks
 
 ---
- blocks.def.h | 16 +++++++++++-----
- dwmblocks.c  | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 57 insertions(+), 6 deletions(-)
+ dwmblocks.c | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 1 deletion(-)
 
-diff --git a/blocks.def.h b/blocks.def.h
-index dbb3305..07e312d 100644
---- a/blocks.def.h
-+++ b/blocks.def.h
-@@ -1,11 +1,17 @@
- //Modify this file to change what commands output to your statusbar, and recompile using the make command.
- static const Block blocks[] = {
--	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
--	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
--
--	{"", "date '+%b %d (%a) %I:%M%p'",					5,		0},
-+    /*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
-+//	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
-+    {"", "sb-music",			0,		11},
-+    {"", "sb-eye",			    0,      12},
-+    {"", "sb-time",             60,		1},
-+//	{"", "sb-eye",							0,		13},
-+//	{"", "internet.fish",						5,		2},
-+//	{"", "sb-timetable",						0,		15},
-+//	{"", "sb-kbd",							0,		3},
-+//	{"", "sb-disk",						0,		4},
- };
- 
--//sets delimiter between status commands. NULL character ('\0') means no delimiter.
-+//sets delimeter between status commands. NULL character ('\0') means no delimeter.
- static char delim[] = " | ";
- static unsigned int delimLen = 5;
 diff --git a/dwmblocks.c b/dwmblocks.c
 index befd252..4501ac4 100644
 --- a/dwmblocks.c

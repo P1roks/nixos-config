@@ -27,7 +27,9 @@
     rofi
     vesktop
     element-desktop
+    libreoffice-qt6-fresh
     scrot
+    cryptsetup
     # GPU
     vulkan-tools
     vulkan-loader

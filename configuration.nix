@@ -17,7 +17,7 @@
     };
 
     settings = {
-      experimental-features = [ "nix-command" ];
+      experimental-features = [ "nix-command" "flakes" ];
     };
   };
 
@@ -54,10 +54,6 @@
       systemd-boot = {
         enable = true;
         configurationLimit = 3;
-        extraEntries."arch.conf" = "
-          title Arch
-          efi efi/GRUB/grubx64.efi
-        ";
       };
       efi.canTouchEfiVariables = true;
     };
@@ -134,6 +130,14 @@
       postscript-lexmark
     ];
   };
+
+  services.libinput = {
+    enable = true;
+    mouse = {
+      # this defaulting to true is stupid
+      middleEmulation = false;
+    };
+  };
   
   services.picom = {
     enable = true;
@@ -198,6 +202,7 @@
     dconf.enable = true;
     gamemode.enable = true;
     fish.enable = true;
+
     git = {
       enable = true;
       config = {
