@@ -1,12 +1,12 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = 
-  let
-    mpc = "${pkgs.mpc-cli}/bin/mpc";
-    rofi = "${pkgs.rofi}/bin/rofi";
-    sb-music = 
-      with (import ./buttons.nix);
-      pkgs.writeShellScriptBin "sb-music" ''
+  nixpkgs.overlays = [
+    (final: prev: {
+      sb-music = 
+      let
+        mpc = "${pkgs.mpc-cli}/bin/mpc";
+        rofi = "${pkgs.rofi}/bin/rofi";
+      in with (import ./buttons.nix); pkgs.writeShellScriptBin "sb-music" ''
         filter() { ${mpc} -f "%title%" | sed "/^volume:/d;s/\\&/&/g;s/\\[paused\\].*//g;/\\[playing\\].*/d;/^ERROR/Q" | paste -sd ' ' -;}
         choseplaylist() {
           choice="$(${mpc} lsplaylist | sort | ${rofi} -dmenu -i )";
@@ -31,5 +31,8 @@
           *) ${mpc} status | filter ;;
         esac
       '';
-  in [ sb-music ];
+    })
+  ];
+
+  environment.systemPackages = with pkgs; [sb-music];
 }

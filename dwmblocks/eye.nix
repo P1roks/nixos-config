@@ -15,11 +15,11 @@
     };
   };
 
-  environment.systemPackages = 
-  let
-    buttons = import ./buttons.nix;
-    sb-eye = 
-    pkgs.writeShellScriptBin "sb-eye" ''
+  nixpkgs.overlays = [
+   (final: prev: {
+    sb-eye =
+    let buttons = import ./buttons.nix;
+    in pkgs.writeShellScriptBin "sb-eye" ''
       if [ "$BLOCK_BUTTON" == ${buttons.leftMouseButton} ]; then
           case $(systemctl --user is-active redshift) in
               active)
@@ -37,6 +37,8 @@
               echo "" ;;
       esac
     '';
-  in
-  [ sb-eye ];
+   }) 
+  ];
+
+  environment.systemPackages = with pkgs; [ sb-eye ];
 }
