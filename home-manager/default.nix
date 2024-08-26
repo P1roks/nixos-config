@@ -4,6 +4,7 @@
       <home-manager/nixos>
   ];
 
+
   home-manager.useGlobalPkgs = true;
 
   home-manager.users.piroks = { pkgs, config, ... }:
@@ -12,7 +13,7 @@
   in
   {
     imports = [
-      ./mpd-cast.nix
+      ./mpd-instances.nix
       ./xdg.nix
     ];
 
@@ -25,30 +26,36 @@
       '';
     };
 
-    services.mpd =
+    services.mpdInstances =
     {
       enable = true;
-      dataDir = "${home}/.config/mpd";
-      extraConfig = ''
-        audio_output {
-          type "pulse"
-          name "Sound server"
-        }
-      '';
-    };
 
-    services.mpd-cast =
-    {
-      enable = true;
-      dataDir = "${home}/.config/mpd";
-      dbFile = null;
-      network.port = 6601;
-      extraConfig = ''
-        audio_output {
-          type "pulse"
-          name "Sound server"
+      instances = [
+        {
+          serviceName = "mpd";
+          dataDir = "${home}/.config/mpd";
+          musicDirectory = "${home}/music";
+          extraConfig = ''
+            audio_output {
+              type "pulse"
+              name "Sound server"
+            }
+          '';
         }
-      '';
+        {
+          serviceName = "mpd-cast";
+          dataDir = "${home}/.config/mpd";
+          musicDirectory = "${home}/music";
+          dbFile = null;
+          network.port = 6601;
+          extraConfig = ''
+            audio_output {
+              type "pulse"
+              name "Sound server"
+            }
+          '';
+        }
+      ];
     };
 
     services.dunst = {
