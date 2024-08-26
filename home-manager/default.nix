@@ -13,8 +13,8 @@
   in
   {
     imports = [
-      ./mpd-instances.nix
       ./xdg.nix
+      ./mpd-instances.nix
     ];
 
     xsession = {
@@ -34,7 +34,7 @@
         {
           serviceName = "mpd";
           dataDir = "${home}/.config/mpd";
-          musicDirectory = "${home}/music";
+          musicDirectory = config.xdg.userDirs.music;
           extraConfig = ''
             audio_output {
               type "pulse"
@@ -45,7 +45,7 @@
         {
           serviceName = "mpd-cast";
           dataDir = "${home}/.config/mpd";
-          musicDirectory = "${home}/music";
+          musicDirectory = config.xdg.userDirs.music;
           dbFile = null;
           network.port = 6601;
           extraConfig = ''

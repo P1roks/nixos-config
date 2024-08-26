@@ -55,6 +55,26 @@ let
       };
     }) cfg.instances);
 
+  sockets = listToAttrs
+    (map (i: {
+      name = i.serviceName;
+      value = {
+        Socket = {
+          ListenStream = let
+            listen = if i.network.listenAddress == "any" then
+              toString i.network.port
+            else
+              "${i.network.listenAddress}:${toString i.network.port}";
+          in [ listen "%t/mpd/socket" ];
+      
+          Backlog = 5;
+          KeepAlive = true;
+        };
+      
+        Install = { WantedBy = [ "sockets.target" ]; };
+      };
+    }) (filter (i: i.network.startWhenNeeded) cfg.instances));
+
   mpdInstanceOptions = types.submodule ({ config, ... }: {
     options = {
       
@@ -68,11 +88,9 @@ let
 
       musicDirectory = mkOption {
         type = with types; either path str;
-        defaultText = literalExpression ''
-          ''${home.homeDirectory}/music    if state version < 22.11
-          ''${xdg.userDirs.music}          if xdg.userDirs.enable == true
-          undefined                      otherwise
-        '';
+        default = if lib.hasAttrByPath ["xdg" "userDirs" "enable"] config && config.xdg.userDirs.enable
+          then config.xdg.userDirs.music 
+          else "${config.home.homeDirectory}/music";
         apply = toString; # Prevent copies to Nix store.
         description = ''
           The directory where mpd reads music from.
@@ -188,34 +206,8 @@ in {
       (lib.hm.assertions.assertPlatform "services.mpdInstances" pkgs lib.platforms.linux)
     ];
 
-    # services.mpdInstances = mkMerge [
-    #   (mkIf (versionAtLeast config.home.stateVersion "22.11"
-    #     && config.xdg.userDirs.enable) {
-    #       musicDirectory = mkOptionDefault config.xdg.userDirs.music;
-    #     })
-    #
-    #   (mkIf (versionOlder config.home.stateVersion "22.11") {
-    #     musicDirectory = mkOptionDefault "${config.home.homeDirectory}/music";
-    #   })
-    # ];
-
     systemd.user.services = services;
-
-    # systemd.user.sockets.mpd = mkIf cfg.network.startWhenNeeded {
-    #   Socket = {
-    #     ListenStream = let
-    #       listen = if cfg.network.listenAddress == "any" then
-    #         toString cfg.network.port
-    #       else
-    #         "${cfg.network.listenAddress}:${toString cfg.network.port}";
-    #     in [ listen "%t/mpd/socket" ];
-    #
-    #     Backlog = 5;
-    #     KeepAlive = true;
-    #   };
-    #
-    #   Install = { WantedBy = [ "sockets.target" ]; };
-    # };
+    systemd.user.sockets = sockets;
 
     home.packages = [ cfg.package ];
   };
