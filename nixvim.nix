@@ -131,7 +131,7 @@ in
         enable = true;
         keymaps = {
             "<c-p>".action = "find_files";
-            "<c-P>".action = "oldfiles";
+            "<s-p>".action = "oldfiles";
             gl.action = "treesitter";
             gr.action = "lsp_references";
             gi.action = "lsp_implementations";

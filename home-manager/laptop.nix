@@ -1,0 +1,6 @@
+{...}:
+{
+  services.xscreensaver = {
+    enable = true;
+  };
+}

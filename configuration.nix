@@ -85,6 +85,24 @@
     desktopManager.wallpaper.combineScreens = true;
   };
 
+  services.dwmblocks = {
+    enable = true;
+
+    package = pkgs.dwmblocks.overrideAttrs {
+       src = pkgs.fetchFromGitHub {
+         owner = "torrinfail";
+         repo = "dwmblocks";
+         rev = "58a426b68a507afd3e681f2ea70a245167d3c3fb";
+         sha256 = "CtDVb6/8/iktDkWnhIgi0Z3SyckZBCq5dsukFKEHahw=";
+       };
+    };
+
+    patches = [
+      /etc/nixos/patches/dwmblocks.patch
+    ];
+
+  };
+
   services.libinput = {
     enable = true;
     mouse = {
@@ -140,7 +158,7 @@
     ];
   };
 
-  environment.variables = rec {
+  environment.variables = {
     BROWSER = "brave";
     EDITOR = "nvim";
     TERMINAL = "alacritty";
@@ -156,6 +174,7 @@
       config = {
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
+        safe.directory = "/etc/nixos";
       };
     };
 
