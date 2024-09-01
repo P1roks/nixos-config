@@ -5,6 +5,8 @@
       allowUnfree = true;
     };
   };
+  
+  imports = [ ./scripts ];
 
   environment.systemPackages =
   with pkgs; [
@@ -44,6 +46,8 @@
     mpv
     ncmpcpp
     python312Packages.mutagen
+    pulsemixer
+    alsa-utils
     # utility
     calc
     redshift
@@ -77,11 +81,12 @@
     libidn2
     libpsl
     nghttp2.lib
-    # scripts
-    (import ./scripts/screenshot.nix)
-    (import ./scripts/books.nix)
-    (import ./scripts/add-album.nix)
-    (import ./scripts/tag-album.nix)
+    #scripts
+    tag_album
+    add_album
+    read_book
+    pshot
+    volume_control
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "podcast" ''mpc -p 6601 "$@"'')

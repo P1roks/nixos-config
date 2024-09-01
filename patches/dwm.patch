@@ -1,4 +1,4 @@
-From 0fe52dbda193dfcced411f64b6b26a07f749371e Mon Sep 17 00:00:00 2001
+From de4ce015f0fbfa3ee6333f1aa4e81c51bb7906e6 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
 Subject: [PATCH] My custom dwm config
@@ -41,12 +41,12 @@ move screenshots folder
  LICENSE      |  38 -----
  Makefile     |   2 +-
  README       |  48 -------
- config.def.h | 140 ++++++++++++------
+ config.def.h | 150 +++++++++++++------
  config.mk    |   2 +-
  drw.c        |  75 ++++++++++
  drw.h        |   4 +
  dwm.c        | 396 +++++++++++++++++++++++++++++++++++++++++++++++----
- 9 files changed, 546 insertions(+), 160 deletions(-)
+ 9 files changed, 556 insertions(+), 160 deletions(-)
  create mode 100644 .gitignore
  delete mode 100644 LICENSE
  delete mode 100644 README
@@ -170,7 +170,7 @@ index 95d4fd0..0000000
 -The configuration of dwm is done by creating a custom config.h
 -and (re)compiling the source code.
 diff --git a/config.def.h b/config.def.h
-index 9efa774..a5d456e 100644
+index 9efa774..2b02565 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,13 +1,19 @@
@@ -240,7 +240,7 @@ index 9efa774..a5d456e 100644
  
  /* helper for spawning shell commands in the pre dwm-5.0 fashion */
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-@@ -58,33 +72,67 @@ static const Layout layouts[] = {
+@@ -58,33 +72,77 @@ static const Layout layouts[] = {
  /* commands */
  static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
  static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
@@ -266,8 +266,8 @@ index 9efa774..a5d456e 100644
 +	{ SUPER,                       XK_F7,     spawn,	   SHCMD( "alacritty --config-file /dev/null -t calc -e calc -d" ) },
 +	{ SUPER,                       XK_F8,     spawn,	   SHCMD( "colorpicker --one-shot --short | xclip -sel clip" ) },
 +	{ SUPER,                       XK_F6,     spawn,	   {.v = (const char*[]) { "rofi","-show","drun","-show-icons","-drun-categories","Game", NULL} }},
-+	{ SUPER,                       XK_F5,     spawn,	   {.v = (const char*[]) { "read-book",NULL } } },
-+	{ SUPER|ShiftMask,             XK_F5,     spawn,	   {.v = (const char*[]) { "read-book", "last", NULL } } }, //get last read pdf
++	{ SUPER,                       XK_F5,     spawn,	   {.v = (const char*[]) { "read_book",NULL } } },
++	{ SUPER|ShiftMask,             XK_F5,     spawn,	   {.v = (const char*[]) { "read_book", "last", NULL } } }, //get last read pdf
 +	{ False,                       XF86XK_AudioPlay,	   spawn,  {.v = (const char*[]) { "mpc", "toggle",NULL } } },
 +	{ ShiftMask,                   XF86XK_AudioPlay,	   spawn,  {.v = (const char*[]) { "mpc", "-p", "6601", "toggle",NULL } } }, //This port is for podcasts
 +	{ False,                       XF86XK_AudioNext,	   spawn,  {.v = (const char*[]) { "mpc", "next",NULL } } },
@@ -276,7 +276,17 @@ index 9efa774..a5d456e 100644
 +	{ SUPER,                       XK_Print,  spawn,	   {.v = (const char*[]) { "pshot", "-s", NULL } } },
 +	{ SUPER|ShiftMask,             XK_Print,  spawn,	   {.v = (const char*[]) { "pshot", "-s", "-f", "/home/piroks/screenshots/",NULL } } },
 +	{ MODKEY,		               XK_Print,  spawn,	   {.v = (const char*[]) { "pshot", "-f", "/home/piroks/screenshots/",NULL } } },
-+	{ False,		               XK_Menu,  spawn,	    SHCMD("copyq menu") },
++	{ False,		               XK_Menu,   spawn,	   SHCMD("copyq menu") },
++    /* laptop shortcuts */
++	{ False,		               XF86XK_Search,            spawn,SHCMD("copyq menu") },
++    { False,		               XF86XK_LaunchA,           spawn,SHCMD("xscreensaver-command -lock")},
++    { False,		               XF86XK_AudioMute,         spawn,{.v = (const char*[]) { "volume_control", "toggle-sound",NULL } } },
++    { False,		               XF86XK_AudioMicMute,      spawn,{.v = (const char*[]) { "volume_control", "toggle-microphone", NULL } } },
++    { False,		               XF86XK_AudioRaiseVolume,  spawn,{.v = (const char*[]) { "volume_control", "up",NULL } } },
++    { False,		               XF86XK_AudioLowerVolume,  spawn,{.v = (const char*[]) { "volume_control", "down",NULL } } },
++    { False,		               XF86XK_MonBrightnessUp,   spawn,{.v = (const char*[]) { "brightness_control", "up",NULL } } },
++	{ False,		               XF86XK_MonBrightnessDown, spawn,{.v = (const char*[]) { "brightness_control", "down",NULL } } },
++    /* end of laptop shortcuts */
 +	{ SUPER|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 +	{ SUPER,                       XK_b,      togglebar,      {0} },
 +	{ SUPER,                       XK_j,      focusstack,     {.i = +1 } },
@@ -332,7 +342,7 @@ index 9efa774..a5d456e 100644
  	TAGKEYS(                        XK_1,                      0)
  	TAGKEYS(                        XK_2,                      1)
  	TAGKEYS(                        XK_3,                      2)
-@@ -94,7 +142,7 @@ static const Key keys[] = {
+@@ -94,7 +152,7 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_7,                      6)
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
@@ -341,7 +351,7 @@ index 9efa774..a5d456e 100644
  };
  
  /* button definitions */
-@@ -104,13 +152,21 @@ static const Button buttons[] = {
+@@ -104,13 +162,21 @@ static const Button buttons[] = {
  	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
  	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
  	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
