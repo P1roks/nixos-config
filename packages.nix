@@ -14,19 +14,18 @@
     gnumake
     libgcc
     rustup
-    alacritty
     mycli
     # graphics
     gimp
     inkscape
     imagemagick
     # essential
+    alacritty
     brave
     ranger
     neofetch
     rofi
     vesktop
-    element-desktop
     libreoffice-qt6-fresh
     scrot
     cryptsetup
@@ -69,7 +68,9 @@
     heroic
     mangohud
     protonup
+    lutris
     # misc
+    volantes-cursors
     xclip
     ueberzugpp
     openssl

@@ -4,7 +4,6 @@
       <home-manager/nixos>
   ];
 
-
   home-manager.useGlobalPkgs = true;
 
   home-manager.users.piroks = { pkgs, config, ... }:
