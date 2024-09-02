@@ -32,7 +32,6 @@
         vulkan-extension-layer
       ];
     };
-
   };
 
   boot = {
@@ -141,7 +140,7 @@
     users.piroks = {
       isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = [ "wheel" "audio" ];
+      extraGroups = [ "wheel" "audio" "video" ];
     };
   };
 

@@ -17,7 +17,7 @@
         #     1) choose_wifi;;
         # esac
 
-        [ "$(cat /sys/class/net/e*/operstate)" = "up" ] && echo "";
+        [ "$(cat /sys/class/net/e*/operstate)" = "up" ] && echo "" && exit 0;
 
         curr_strength=$(${awk} 'NR == 3 {print substr($3,1,length($3)-1)}' /proc/net/wireless)
         if [ -z "$curr_strength" ]; then echo "󰤭";

@@ -15,6 +15,7 @@
         fi
 
         book=$(ls ${booksPath} | ${rofi} -i -dmenu)
+        if test -z "$book"; then exit 0; fi
         echo "$book" > ${lastBook}
         ${zathura} "${booksPath}$book"
       '';
