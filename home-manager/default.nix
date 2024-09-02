@@ -31,7 +31,6 @@
       settings = {
 
         window.opacity = 0.8;
-        font.size = 17.0;
 
         colors.primary = {
           background = "#282828";

@@ -3,35 +3,39 @@ let
   home = config.home.homeDirectory;
 in
 {
-    services.mpdInstances =
-    {
-      enable = true;
+  programs.alacritty.settings = {
+    font.size = 17.0;
+  };
 
-      instances = [
-        {
-          serviceName = "mpd";
-          dataDir = "${home}/.config/mpd";
-          musicDirectory = config.xdg.userDirs.music;
-          extraConfig = ''
-            audio_output {
-              type "pulse"
-              name "Sound server"
-            }
-          '';
-        }
-        {
-          serviceName = "mpd-cast";
-          dataDir = "${home}/.config/mpd";
-          musicDirectory = config.xdg.userDirs.music;
-          dbFile = null;
-          network.port = 6601;
-          extraConfig = ''
-            audio_output {
-              type "pulse"
-              name "Sound server"
-            }
-          '';
-        }
-      ];
-    };
+  services.mpdInstances =
+  {
+    enable = true;
+
+    instances = [
+      {
+        serviceName = "mpd";
+        dataDir = "${home}/.config/mpd";
+        musicDirectory = config.xdg.userDirs.music;
+        extraConfig = ''
+          audio_output {
+            type "pulse"
+            name "Sound server"
+          }
+        '';
+      }
+      {
+        serviceName = "mpd-cast";
+        dataDir = "${home}/.config/mpd";
+        musicDirectory = config.xdg.userDirs.music;
+        dbFile = null;
+        network.port = 6601;
+        extraConfig = ''
+          audio_output {
+            type "pulse"
+            name "Sound server"
+          }
+        '';
+      }
+    ];
+  };
 }

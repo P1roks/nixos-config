@@ -87,6 +87,7 @@
     read_book
     pshot
     volume_control
+    brightness_control
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "podcast" ''mpc -p 6601 "$@"'')
