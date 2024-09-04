@@ -62,6 +62,11 @@ in
         pattern = ["nix"];
         command = "setlocal tabstop=2 shiftwidth=2";
       }
+      {
+        event = ["BufWritePost"];
+        pattern = ["*.scss" "*.sass"];
+        command = "silent exec \"!${pkgs.sass}/bin/sass %:p %:r.css\"";
+      }
     ];
 
     plugins = {
@@ -131,7 +136,7 @@ in
         enable = true;
         keymaps = {
             "<c-p>".action = "find_files";
-            "<s-p>".action = "oldfiles";
+            "<a-p>".action = "oldfiles";
             gl.action = "treesitter";
             gr.action = "lsp_references";
             gi.action = "lsp_implementations";
@@ -194,6 +199,8 @@ in
         };
 
         servers = {
+          emmet-ls.enable = true;
+          cssls.enable = true;
           clangd.enable = true;
           tsserver.enable = true;
           nixd.enable = true;
