@@ -63,6 +63,7 @@
     sxiv
     ripgrep
     yt-dlp
+    xdragon
     # archives
     p7zip
     unrar
