@@ -17,6 +17,7 @@
     libgcc
     rustup
     mycli
+    sass
     # graphics
     gimp
     inkscape

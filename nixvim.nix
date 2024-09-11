@@ -62,6 +62,7 @@ in
         pattern = ["nix"];
         command = "setlocal tabstop=2 shiftwidth=2";
       }
+      # autocompile scss
       {
         event = ["BufWritePost"];
         pattern = ["*.scss" "*.sass"];
@@ -199,12 +200,12 @@ in
         };
 
         servers = {
-          emmet-ls.enable = true;
           cssls.enable = true;
           clangd.enable = true;
           tsserver.enable = true;
           nixd.enable = true;
           bashls.enable = true;
+          emmet-ls.enable = true;
           #rust-analyzer = {
           #  enable = true;
           #};
