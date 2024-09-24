@@ -140,7 +140,7 @@
     users.piroks = {
       isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = [ "wheel" "audio" "video" ];
+      extraGroups = [ "wheel" "audio" "video" "networkmanager"];
     };
   };
 
