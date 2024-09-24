@@ -1,7 +1,13 @@
 {...}:
+let
+  home-manager = builtins.fetchGit{
+    url = "https://github.com/nix-community/home-manager";
+    ref = "release-24.05";
+  };
+in
 {
   imports = [
-      <home-manager/nixos>
+    (import "${home-manager}/nixos")
   ];
 
   home-manager.useGlobalPkgs = true;

@@ -1,4 +1,4 @@
-From 465ac3c53d40c979cfa546dc284211b88f2e73dc Mon Sep 17 00:00:00 2001
+From 36fb688069fc1ac2aa0393fafca29afd37bf3ad3 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
 Subject: [PATCH] My custom dwm config
@@ -170,7 +170,7 @@ index 95d4fd0..0000000
 -The configuration of dwm is done by creating a custom config.h
 -and (re)compiling the source code.
 diff --git a/config.def.h b/config.def.h
-index 9efa774..acdd46f 100644
+index 9efa774..b3ca083 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,13 +1,18 @@
@@ -224,7 +224,7 @@ index 9efa774..acdd46f 100644
 +	{ "Thunar",      NULL,       NULL,     0,            1,           -1 },
 +	{ "Xdragon",     NULL,       NULL,     0,            3,           -1 },
 +	{ "Dragon",      NULL,       NULL,     0,            3,           -1 },
-+	{ "steam",       NULL,       NULL,     1 << 1,       1,            1 },
++	{ "steam",       NULL,       NULL,     0,            1,           -1 },
 +	{ "vesktop",     NULL,       NULL,     1 << 0,       0,            1 },
 +	{ "Alacritty",   NULL,       "calc",   0,            1,           -1 },
 +	{ "Brave",       NULL,       NULL,     0,      	     0,           -1 },
@@ -339,6 +339,7 @@ index 9efa774..acdd46f 100644
 +	{ SUPER|ShiftMask,        XK_0,                      tag,            {.ui = ~0 } },
 +	{ SUPER,                  XK_comma,                  focusmon,       {.i = -1 } },
 +	{ SUPER|ShiftMask,        XK_comma,                  tagmon,         {.i = -1 } },
++	{ SUPER|ShiftMask,        XK_q,                      quit,           {0} },
 +	TAGKEYS(                  XK_1,                      0)
 +	TAGKEYS(                  XK_2,                      1)
 +	TAGKEYS(                  XK_3,                      2)
@@ -348,7 +349,6 @@ index 9efa774..acdd46f 100644
 +	TAGKEYS(                  XK_7,                      6)
 +	TAGKEYS(                  XK_8,                      7)
 +	TAGKEYS(                  XK_9,                      8)
-+	{ SUPER|ShiftMask,        XK_q,      quit,           {0} },
  };
  
  /* button definitions */

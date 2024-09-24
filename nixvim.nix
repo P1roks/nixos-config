@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
-    nixvim = import (builtins.fetchGit {
-      url = "https://github.com/nix-community/nixvim";
-      ref = "nixos-24.05";
-    });
+  nixvim = import (builtins.fetchGit {
+    url = "https://github.com/nix-community/nixvim";
+    ref = "nixos-24.05";
+  });
 in
 {
   imports = [
@@ -65,8 +65,21 @@ in
       # autocompile scss
       {
         event = ["BufWritePost"];
-        pattern = ["*.scss" "*.sass"];
+        pattern = ["style.scss" "style.sass"];
         command = "silent exec \"!${pkgs.sass}/bin/sass %:p %:r.css\"";
+      }
+      # use html treesitter for template engines
+      {
+        event = [ "BufRead" "BufNewFile" ];
+        pattern = [ "*.ejs" "*.handlebars" "*.hbs"];
+        command = "set filetype=html";
+      }
+
+      # Change working directory to the first opened file directory
+      {
+        event = ["VimEnter"];
+        pattern = [ "*" ];
+        command = "cd %:p:h";
       }
     ];
 
@@ -202,10 +215,38 @@ in
         servers = {
           cssls.enable = true;
           clangd.enable = true;
-          tsserver.enable = true;
           nixd.enable = true;
           bashls.enable = true;
           emmet-ls.enable = true;
+
+          tsserver = {
+            enable = true;
+            extraOptions = {
+                init_options = {
+                  preferences = {
+                      includeInlayParameterNameHints = "all";
+                      includeInlayParameterNameHintsWhenArgumentMatchesName = true;
+                      includeInlayFunctionParameterTypeHints = true;
+                      includeInlayVariableTypeHints = true;
+                      includeInlayPropertyDeclarationTypeHints = true;
+                      includeInlayFunctionLikeReturnTypeHints = true;
+                      includeInlayEnumMemberValueHints = true;
+                      importModuleSpecifierPreference = "non-relative";
+                  };
+              };
+            };
+            onAttach = {
+              override = true;
+              function = ''
+                client.server_capabilities.document_formatting = false
+                client.server_capabilities.document_range_formatting = false
+                if client.server_capabilities.inlayHintProvider then
+                  vim.lsp.buf.inlay_hint(bufnr, true)
+                end
+              '';
+            };
+          };
+
           #rust-analyzer = {
           #  enable = true;
           #};

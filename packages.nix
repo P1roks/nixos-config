@@ -65,6 +65,8 @@
     ripgrep
     yt-dlp
     xdragon
+    pandoc
+    ffmpeg-full
     # archives
     p7zip
     unrar
