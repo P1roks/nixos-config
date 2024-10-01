@@ -218,6 +218,7 @@ in
           bashls.enable = true;
           emmet-ls.enable = true;
           texlab.enable = true;
+          pyright.enable = true;
 
           clangd = {
             enable = true;

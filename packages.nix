@@ -18,6 +18,7 @@
     rustup
     mycli
     sass
+    jetbrains.pycharm-community-bin
     texliveBasic
     # graphics
     gimp
@@ -68,6 +69,7 @@
     xdragon
     pandoc
     ffmpeg-full
+    poppler_utils
     # archives
     p7zip
     unrar
