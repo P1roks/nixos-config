@@ -18,6 +18,7 @@
     rustup
     mycli
     sass
+    texliveBasic
     # graphics
     gimp
     inkscape

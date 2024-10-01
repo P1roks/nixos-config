@@ -65,8 +65,8 @@ in
       # autocompile scss
       {
         event = ["BufWritePost"];
-        pattern = ["style.scss" "style.sass"];
-        command = "silent exec \"!${pkgs.sass}/bin/sass %:p %:r.css\"";
+        pattern = ["*.scss" "*.sass"];
+        command = "silent exec \"!${pkgs.sass}/bin/sass %:p:h/style.%:e %:p:h/style.css\"";
       }
       # use html treesitter for template engines
       {
@@ -214,10 +214,19 @@ in
 
         servers = {
           cssls.enable = true;
-          clangd.enable = true;
           nixd.enable = true;
           bashls.enable = true;
           emmet-ls.enable = true;
+          texlab.enable = true;
+
+          clangd = {
+            enable = true;
+            extraOptions = {
+              init_options = {
+                fallbackFlags = ["--std=c++20"];
+              };
+            };
+          };
 
           tsserver = {
             enable = true;

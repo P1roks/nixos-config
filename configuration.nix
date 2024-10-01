@@ -157,6 +157,10 @@
     ];
   };
 
+  services.mongodb = {
+    enable = true;
+  };
+
   environment.variables = {
     BROWSER = "brave";
     EDITOR = "nvim";
