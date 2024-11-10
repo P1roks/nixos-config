@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
   nixvim = import (builtins.fetchGit {
     url = "https://github.com/nix-community/nixvim";
@@ -62,7 +62,7 @@ in
         pattern = ["nix"];
         command = "setlocal tabstop=2 shiftwidth=2";
       }
-      # autocompile scss
+      # autocompile scss (style.s[c|a]ss file)
       {
         event = ["BufWritePost"];
         pattern = ["*.scss" "*.sass"];
@@ -214,11 +214,18 @@ in
 
         servers = {
           cssls.enable = true;
-          nixd.enable = true;
           bashls.enable = true;
           emmet-ls.enable = true;
           texlab.enable = true;
           pyright.enable = true;
+
+          nixd = {
+            enable = true;
+            settings = {
+              nixpkgs.expr = "import <nixpkgs> { }";
+              formatting.command = [ "nixpkgs-fmt" ];
+            };
+          };
 
           clangd = {
             enable = true;
@@ -271,32 +278,6 @@ in
       }
       {
         plugin = friendly-snippets;
-      }
-      {
-        plugin = pkgs.vimUtils.buildVimPlugin {
-          name = "render-markdown";
-          src = pkgs.fetchFromGitHub {
-            owner = "MeanderingProgrammer";
-            repo = "render-markdown.nvim";
-            rev = "11b92a6be7e3d848d4f7467f6edb5578c60bcad2";
-            sha256 = "sZIOdcZ6pchu6wMo7THaRV6TG9rEnnpe6iUyHZPHf5c=";
-          };
-        };
-        config = ''
-        lua << EOF
-          require('render-markdown').setup({
-            file_types = { 'markdown' },
-            render_modes = { 'n', 'c' },
-            overrides = {
-             buftype = {
-              nofile = {
-                sign = { enabled = false },
-              },
-             },
-            },
-          })
-        EOF
-        '';
       }
     ];
   };

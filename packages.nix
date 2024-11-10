@@ -12,6 +12,7 @@
   with pkgs; [
     # nix related
     nix-tree
+    nixpkgs-fmt
     # programming related
     gnumake
     libgcc
@@ -19,7 +20,15 @@
     mycli
     sass
     jetbrains.pycharm-community-bin
-    texliveBasic
+    mitmproxy
+    firefox
+    # tex related
+    (texliveBasic.withPackages (ps: with ps; [
+      xcolor
+      collection-fontsrecommended
+      hyperref
+      etoolbox
+    ]))
     # graphics
     gimp
     inkscape
@@ -70,6 +79,10 @@
     pandoc
     ffmpeg-full
     poppler_utils
+    # parsers
+    jq
+    yq
+    htmlq
     # archives
     p7zip
     unrar

@@ -11,7 +11,7 @@
         buttons = import ./buttons.nix;
       in pkgs.writeShellScriptBin "sb-kbd" ''
         case $BLOCK_BUTTON in
-          1)
+          ${buttons.leftMouseButton})
             rules_location=$(${setxkbmap} -verbose 10 | grep "Trying to load rules file" | tail -n 1 | ${awk} '{print $NF}' | sed "s|\.\.\.|.lst|")
             language=$(${awk} 'BEGIN {display=0}
               $1=="!" {display = $2=="layout" ? 1 : 0; next}

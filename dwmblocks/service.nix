@@ -50,6 +50,7 @@ let
   if lib.isString cfg.blocks then cfg.blocks
   else concatMapStrings (block: block + ",")
     (map (block: ''{"${block.icon}", "${block.command}", ${toString block.interval}, ${toString block.signal}}'') cfg.blocks);
+
   dwmblocks = cfg.package.override {
     patches = cfg.patches;
     conf = ''
