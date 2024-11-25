@@ -1,41 +1,15 @@
-From 36fb688069fc1ac2aa0393fafca29afd37bf3ad3 Mon Sep 17 00:00:00 2001
+From 922495a4b3f06b158fb16aebc6f538e8d8e04149 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
-Subject: [PATCH] My custom dwm config
+Subject: [PATCH] Custom config
 
-clean
-
-cleaner
-
-the cleanest (maybe)
-
-clickable
-
-fixes to mpc
-
-icons
-
-remove accidentaly added files
-
-workign ver
-
-fixed some weird bugs
-
-working icons
-
-It Works!
-
-resolved confilct in keybinds
-
-CTRL+RMB dwmblocks handling
-
-new keybinds
-
-colorpicker
-
-regular update
-
-move screenshots folder
+patches:
+- Display programs' icons
+- Windows gaps
+- Sticky layout
+- Dmwblocks signals
+- Only display tags with windows open
+- Same bar for all monitors
 ---
  .gitignore   |   1 +
  LICENSE      |  38 -----
@@ -170,7 +144,7 @@ index 95d4fd0..0000000
 -The configuration of dwm is done by creating a custom config.h
 -and (re)compiling the source code.
 diff --git a/config.def.h b/config.def.h
-index 9efa774..b3ca083 100644
+index 9efa774..4f7ac28 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,13 +1,18 @@
@@ -225,7 +199,7 @@ index 9efa774..b3ca083 100644
 +	{ "Xdragon",     NULL,       NULL,     0,            3,           -1 },
 +	{ "Dragon",      NULL,       NULL,     0,            3,           -1 },
 +	{ "steam",       NULL,       NULL,     0,            1,           -1 },
-+	{ "vesktop",     NULL,       NULL,     1 << 0,       0,            1 },
++	{ "vesktop",     NULL,       NULL,     0,            0,            1 },
 +	{ "Alacritty",   NULL,       "calc",   0,            1,           -1 },
 +	{ "Brave",       NULL,       NULL,     0,      	     0,           -1 },
 +

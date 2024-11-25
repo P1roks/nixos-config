@@ -25,6 +25,7 @@
     # tex related
     (texliveBasic.withPackages (ps: with ps; [
       xcolor
+      transparent
       collection-fontsrecommended
       hyperref
       etoolbox
