@@ -10,13 +10,17 @@
 
   environment.systemPackages =
   with pkgs; [
+    discord
     # nix related
     nix-tree
     nixpkgs-fmt
     # programming related
     gnumake
     libgcc
-    rustup
+    cargo
+    rustc
+    nodejs
+    gcc
     mycli
     sass
     jetbrains.pycharm-community-bin
@@ -65,7 +69,7 @@
     calc
     redshift
     killall
-    colorpicker
+    xcolor
     copyq
     htop
     xdotool

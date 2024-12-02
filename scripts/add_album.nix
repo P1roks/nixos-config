@@ -57,7 +57,7 @@
 
             *)
               echo "Invalid option '$1' specified! Aborting"
-              extit 1
+              exit 1
               ;;
           esac
           shift

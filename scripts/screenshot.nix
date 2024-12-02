@@ -44,7 +44,7 @@
 
               *)
                 echo "Invalid option '$1' specified! Aborting"
-                extit 1
+                exit 1
                 ;;
             esac
             shift
@@ -57,7 +57,7 @@
           scrot_args+=("-s")    
         fi
 
-        if [ "$focused_monitor" == true ]; then
+        if [ "$focused_monitor" == true ] && [ "$select" == false ]; then
             scrot_args+=("-u")
         fi
 

@@ -1,4 +1,4 @@
-From 922495a4b3f06b158fb16aebc6f538e8d8e04149 Mon Sep 17 00:00:00 2001
+From 87a20ff6f0cea2bd226969013d899dc0aabcd775 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
 Subject: [PATCH] Custom config
@@ -144,7 +144,7 @@ index 95d4fd0..0000000
 -The configuration of dwm is done by creating a custom config.h
 -and (re)compiling the source code.
 diff --git a/config.def.h b/config.def.h
-index 9efa774..4f7ac28 100644
+index 9efa774..11f012f 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,13 +1,18 @@
@@ -270,7 +270,7 @@ index 9efa774..4f7ac28 100644
 +	{ SUPER,                  XK_w,	                     spawn,          SHCMD("$BROWSER")},
 +	{ SUPER,                  XK_F12,                    togglefullscreen, {0}},
 +	{ SUPER,                  XK_F7,                     spawn,          SHCMD( "alacritty --config-file /dev/null -t calc -e calc -d" ) },
-+	{ SUPER,                  XK_F8,                     spawn,          SHCMD( "colorpicker --one-shot --short | xclip -sel clip" ) },
++	{ SUPER,                  XK_F8,                     spawn,          SHCMD( "xcolor | xclip -sel clip" ) },
 +	{ SUPER,                  XK_F6,                     spawn,          {.v = (const char*[]) { "rofi","-show","drun","-show-icons","-drun-categories","Game", NULL} }},
 +	{ SUPER,                  XK_F5,                     spawn,          {.v = (const char*[]) { "read_book",NULL } } },
 +	{ SUPER|ShiftMask,        XK_F5,                     spawn,          {.v = (const char*[]) { "read_book", "last", NULL } } }, //get last read pdf

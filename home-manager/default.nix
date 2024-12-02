@@ -2,7 +2,7 @@
 let
   home-manager = builtins.fetchGit{
     url = "https://github.com/nix-community/home-manager";
-    ref = "release-24.05";
+    ref = "release-24.11";
   };
 in
 {
@@ -192,7 +192,7 @@ in
       enable = true;
       theme = {
         name = "Adwaita-dark";
-        package = pkgs.gnome.gnome-themes-extra;
+        package = pkgs.gnome-themes-extra;
       };
     };
 

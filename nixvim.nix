@@ -2,7 +2,7 @@
 let
   nixvim = import (builtins.fetchGit {
     url = "https://github.com/nix-community/nixvim";
-    ref = "nixos-24.05";
+    ref = "nixos-24.11";
   });
 in
 {
@@ -87,6 +87,7 @@ in
       nvim-autopairs.enable = true;
       comment.enable = true;
       mini.enable = true;
+      web-devicons.enable = true;
 
       nvim-colorizer = {
         enable = true;
@@ -124,9 +125,13 @@ in
 
       lualine = {
         enable = true;
-        theme = "gruvbox-material";
-        sections = {
-          lualine_x = [ "encoding" "filetype" ];
+        settings = {
+          options = {
+            theme = "gruvbox-material";
+          };
+          sections = {
+            lualine_x = [ "encoding" "filetype" ];
+          };
         };
       };
 
@@ -134,16 +139,22 @@ in
         enable = true;
         nixGrammars = true;
         nixvimInjections = true;
-        ensureInstalled = [
-          "diff" "dockerfile" "awk"
-          "bash" "fish" "nix"
-          "yaml" "toml" "json"
-          "html" "css" "scss"
-          "javascript" "typescript" "tsx"
-          "c" "cpp" "rust"
-          "kotlin" "scala" "java"
-          "make" "cmake"
-        ];
+        settings = {
+          auto_install = true;
+          ensure_installed = [
+            "diff" "dockerfile" "awk"
+            "bash" "fish" "nix"
+            "yaml" "toml" "json"
+            "html" "css" "scss"
+            "javascript" "typescript" "tsx"
+            "c" "cpp" "rust"
+            "kotlin" "scala" "java"
+            "make" "cmake"
+          ];
+          highlight.enable = true;
+          incremental_selection.enable = true;
+          indent.enable = true;
+        };
       };
 
       telescope = {
@@ -203,6 +214,7 @@ in
 
       lsp = {
         enable = true;
+        inlayHints = true;
 
         keymaps = {
           lspBuf = {
@@ -215,7 +227,7 @@ in
         servers = {
           cssls.enable = true;
           bashls.enable = true;
-          emmet-ls.enable = true;
+          emmet_ls.enable = true;
           texlab.enable = true;
           pyright.enable = true;
 
@@ -236,7 +248,7 @@ in
             };
           };
 
-          tsserver = {
+          ts_ls = {
             enable = true;
             extraOptions = {
                 init_options = {
@@ -258,15 +270,17 @@ in
                 client.server_capabilities.document_formatting = false
                 client.server_capabilities.document_range_formatting = false
                 if client.server_capabilities.inlayHintProvider then
-                  vim.lsp.buf.inlay_hint(bufnr, true)
+                  vim.lsp.inlay_hint(bufnr, true)
                 end
               '';
             };
           };
 
-          #rust-analyzer = {
-          #  enable = true;
-          #};
+          rust_analyzer = {
+            enable = true;
+            installCargo = true;
+            installRustc = true;
+          };
         };
       };
     };
