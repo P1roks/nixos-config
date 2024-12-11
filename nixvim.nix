@@ -248,31 +248,21 @@ in
             };
           };
 
-          ts_ls = {
+          ts_ls =
+          let inlay_hints_settings = {
+            includeInlayParameterNameHints = "all";
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true;
+            includeInlayFunctionParameterTypeHints = true;
+            includeInlayVariableTypeHints = true;
+            includeInlayPropertyDeclarationTypeHints = true;
+            includeInlayFunctionLikeReturnTypeHints = true;
+            includeInlayEnumMemberValueHints = true;
+            importModuleSpecifierPreference = "non-relative";
+          }; in {
             enable = true;
-            extraOptions = {
-                init_options = {
-                  preferences = {
-                      includeInlayParameterNameHints = "all";
-                      includeInlayParameterNameHintsWhenArgumentMatchesName = true;
-                      includeInlayFunctionParameterTypeHints = true;
-                      includeInlayVariableTypeHints = true;
-                      includeInlayPropertyDeclarationTypeHints = true;
-                      includeInlayFunctionLikeReturnTypeHints = true;
-                      includeInlayEnumMemberValueHints = true;
-                      importModuleSpecifierPreference = "non-relative";
-                  };
-              };
-            };
-            onAttach = {
-              override = true;
-              function = ''
-                client.server_capabilities.document_formatting = false
-                client.server_capabilities.document_range_formatting = false
-                if client.server_capabilities.inlayHintProvider then
-                  vim.lsp.inlay_hint(bufnr, true)
-                end
-              '';
+            settings = {
+                typescript.inlayHints = inlay_hints_settings;
+                javascript.inlayHints = inlay_hints_settings;
             };
           };
 
@@ -280,6 +270,10 @@ in
             enable = true;
             installCargo = true;
             installRustc = true;
+          };
+
+          volar = {
+            enable = true;
           };
         };
       };

@@ -20,6 +20,7 @@
     cargo
     rustc
     nodejs
+    lld
     gcc
     mycli
     sass
@@ -45,9 +46,13 @@
     neofetch
     rofi
     vesktop
-    libreoffice-qt6-fresh
     scrot
     cryptsetup
+    # word processing
+    libreoffice-qt6-fresh
+    hunspell
+    hunspellDicts.en-us
+    hunspellDicts.pl-pl
     # GPU
     vulkan-tools
     vulkan-loader
