@@ -162,7 +162,7 @@
   };
 
   environment.variables = {
-    BROWSER = "brave";
+    BROWSER = "zen";
     EDITOR = "nvim";
     TERMINAL = "alacritty";
   };

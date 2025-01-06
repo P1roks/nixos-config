@@ -28,10 +28,6 @@ in
       expandtab = true;
     };
 
-    globals = {
-      mapleader = "<Space>";
-    };
-
     keymaps = [
       {
         key = "j";
@@ -53,7 +49,16 @@ in
         action = "k";
         mode = "n";
       }
+      {
+        key = "<space>";
+        action = "<Nop>";
+        mode = "n";
+      }
     ];
+
+    globals = {
+      mapleader = " ";
+    };
 
     autoCmd = [
       # nix config files have 2-width tabs
@@ -221,6 +226,11 @@ in
             gD = "declaration";
             K = "hover";
             "gR" = "rename";
+          };
+          diagnostic = {
+            "<leader>e" = "open_float";
+            ge = "goto_next";
+            gE = "goto_prev";
           };
         };
 

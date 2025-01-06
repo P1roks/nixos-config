@@ -39,6 +39,7 @@
     gimp
     inkscape
     imagemagick
+    lorien
     # essential
     alacritty
     brave
@@ -48,6 +49,7 @@
     vesktop
     scrot
     cryptsetup
+    (builtins.getFlake "github:youwen5/zen-browser-flake").packages.${builtins.currentSystem}.default
     # word processing
     libreoffice-qt6-fresh
     hunspell
@@ -70,6 +72,7 @@
     python312Packages.mutagen
     pulsemixer
     alsa-utils
+    audacity
     # utility
     calc
     redshift
