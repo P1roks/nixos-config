@@ -92,8 +92,14 @@ in
         "text/x-tex" = [ "nvim.desktop" ];
         "application/x-shellscript" = [ "nvim.desktop" ];
         "application/sql" = [ "nvim.desktop" ];
-        "text/x-c" = [ "nvim.desktop" ];
-        "text/x-c++" = [ "nvim.desktop" ];
+        "text/x-c" = ["nvim.desktop"];
+        "text/x-c++" = ["nvim.desktop"];
+        "text/html" = ["zen.desktop"];
+        "text/xml" = ["zen.desktop"];
+        "application/xhtml+xml" = ["zen.desktop"];
+        "application/vnd.mozilla.xul+xml" = ["zen.desktop"];
+        "x-scheme-handler/http" = ["zen.desktop"];
+        "x-scheme-handler/https" = ["zen.desktop"];
       };
     };
 

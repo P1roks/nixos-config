@@ -72,6 +72,10 @@
     python312Packages.mutagen
     pulsemixer
     alsa-utils
+    # video
+    ffmpeg-full
+    obs-studio
+    shotcut
     audacity
     # utility
     calc
@@ -90,7 +94,6 @@
     yt-dlp
     xdragon
     pandoc
-    ffmpeg-full
     poppler_utils
     # parsers
     jq
@@ -106,6 +109,9 @@
     mangohud
     protonup
     lutris
+    #games
+    prismlauncher
+    packwiz
     # misc
     volantes-cursors
     xclip

@@ -5,6 +5,7 @@
     ./home-manager
     ./nixvim.nix
     ./dwmblocks
+    ./fonts
     ./systemd.nix
     ./packages.nix
     ./machine.nix # this file is a symlink to a machine-specific config
@@ -56,6 +57,7 @@
       noto-fonts
       nerdfonts
       google-fonts
+      minecraft-font
     ];
     fontconfig = {
       defaultFonts = {
