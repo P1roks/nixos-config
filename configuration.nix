@@ -6,6 +6,7 @@
     ./nixvim.nix
     ./dwmblocks
     ./fonts
+    ./own-packages
     ./systemd.nix
     ./packages.nix
     ./machine.nix # this file is a symlink to a machine-specific config

@@ -112,6 +112,8 @@
     #games
     prismlauncher
     packwiz
+    nblood
+    blood_picker
     # misc
     volantes-cursors
     xclip
