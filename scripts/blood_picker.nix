@@ -5,7 +5,7 @@
       blood_picker = pkgs.writeShellApplication {
         name = "blood_picker";
 
-        runtimeInputs = [ pkgs.nblood pkgs.rofi ];
+        runtimeInputs = with pkgs; [ nblood rofi ];
 
         text = ''
           nblood_dir="/var/lib/games/nblood"

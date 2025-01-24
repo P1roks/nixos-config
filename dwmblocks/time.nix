@@ -2,18 +2,22 @@
 {
   nixpkgs.overlays = [
     (final: prev: {
-      sb-time =
-      let
-        buttons = import ./buttons.nix;
-        notify-send = "${pkgs.libnotify}/bin/notify-send";
-      in pkgs.writeShellScriptBin "sb-time" ''
-        case $BLOCK_BUTTON in
-          ${buttons.leftMouseButton})
-            ${notify-send} " " "$(cal --color=always | sed 's|.\[7m|<b><span color=\"red\">|;s|.\[0m|</span></b>|')" ;;
-        esac
+      sb-time = pkgs.writeShellApplication {
+        name = "sb-time";
 
-        echo  $(date "+%H:%M") 
-      '';
+        bashOptions = ["errexit" "pipefail" "errtrace"];
+        runtimeEnv = import ./buttons.nix;
+        runtimeInputs = with pkgs; [ libnotify ];
+
+        text = ''
+          case $BLOCK_BUTTON in
+            "$leftMouseButton")
+              notify-send " " "$(cal --color=always | sed 's|.\[7m|<b><span color=\"red\">|;s|.\[0m|</span></b>|')" ;;
+          esac
+
+          echo  "$(date "+%H:%M")" 
+        '';
+      };
     })
   ];
 

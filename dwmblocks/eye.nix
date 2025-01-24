@@ -16,28 +16,33 @@
   };
 
   nixpkgs.overlays = [
-   (final: prev: {
-    sb-eye =
-    let buttons = import ./buttons.nix;
-    in pkgs.writeShellScriptBin "sb-eye" ''
-      if [ "$BLOCK_BUTTON" == ${buttons.leftMouseButton} ]; then
+    (final: prev: {
+      sb-eye = pkgs.writeShellApplication {
+        name = "sb-eye";
+
+        bashOptions = ["errexit" "pipefail" "errtrace"];
+        runtimeEnv = import ./buttons.nix;
+
+        text = ''
+          if [ "$BLOCK_BUTTON" == $leftMouseButton ]; then
+              case $(systemctl --user is-active redshift) in
+                  active)
+                      systemctl --user stop --now redshift ;;
+                  inactive)
+                      systemctl --user start --now redshift ;;
+              esac
+              pkill -RTMIN+12 dwmblocks
+          fi
+
           case $(systemctl --user is-active redshift) in
               active)
-                  systemctl --user stop --now redshift ;;
+                  echo "" ;;
               inactive)
-                  systemctl --user start --now redshift ;;
+                  echo "" ;;
           esac
-          pkill -RTMIN+12 dwmblocks
-      fi
-
-      case $(systemctl --user is-active redshift) in
-          active)
-              echo "" ;;
-          inactive)
-              echo "" ;;
-      esac
-    '';
-   }) 
+        '';
+      };
+    }) 
   ];
 
   environment.systemPackages = with pkgs; [ sb-eye ];

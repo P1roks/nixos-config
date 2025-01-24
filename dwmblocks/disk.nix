@@ -2,16 +2,20 @@
 {
   nixpkgs.overlays = [
     (final: prev: {
-      sb-disk =
-      let
-        buttons = import ./buttons.nix;
-        notify-send = "${pkgs.libnotify}/bin/notify-send";
-      in pkgs.writeShellScriptBin "sb-disk" ''
-        case "$BLOCK_BUTTON" in
-          ${buttons.leftMouseButton})
-            ${notify-send} "$(df -h / --output=size,used,avail,pcent)" ;;
-        esac
-      '';
+      sb-disk = pkgs.writeShellApplication {
+        name = "sb-disk";
+
+        bashOptions = ["errexit" "pipefail" "errtrace"];
+        runtimeEnv = import ./buttons.nix;
+        runtimeInputs = with pkgs; [ libnotify ];
+
+        text =''
+          case "$BLOCK_BUTTON" in
+            "$leftMouseButton")
+              notify-send "$(df -h / --output=size,used,avail,pcent)" ;;
+          esac
+        '';
+      };
     })
   ];
 
