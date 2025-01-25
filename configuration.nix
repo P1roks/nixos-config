@@ -164,6 +164,11 @@
     package = pkgs.mongodb-ce; 
   };
 
+  services.redis.servers."" = {
+    enable = true;
+    databases = 1;
+  };
+
   environment.variables = {
     BROWSER = "zen";
     EDITOR = "nvim";

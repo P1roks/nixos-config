@@ -22,10 +22,10 @@
     nodejs
     lld
     gcc
-    mycli
     sass
     jetbrains.pycharm-community-bin
     mitmproxy
+    insomnia
     firefox
     # tex related
     (texliveBasic.withPackages (ps: with ps; [
@@ -35,6 +35,9 @@
       hyperref
       etoolbox
     ]))
+    # databases
+    mycli
+    mongosh
     # graphics
     gimp
     inkscape
