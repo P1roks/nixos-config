@@ -59,6 +59,7 @@
       nerdfonts
       google-fonts
       minecraft-font
+      vhs-font
     ];
     fontconfig = {
       defaultFonts = {

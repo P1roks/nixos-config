@@ -122,12 +122,14 @@ stdenv.mkDerivation (finalAttrs: {
       runHook preInstall
 
       mv nblood nblood-unwrapped
-      install -Dm755 -t $out/bin nblood-unwrapped nblood.pk3
+      install -Dm755 -t $out/bin nblood-unwrapped
+      install -Dm644 -t $out/lib nblood.pk3
     ''
     + lib.optionalString stdenv.hostPlatform.isLinux ''
       makeWrapper $out/bin/nblood-unwrapped $out/bin/nblood \
-        --set-default NBLOOD_DATA_DIR /var/lib/games/nblood \
-        --add-flags '-j="$NBLOOD_DATA_DIR"'
+        --set-default DATA_FILE $out \
+        --add-flags '-j="/var/lib/games/nblood"' \
+        --add-flags '-j="$DATA_FILE/lib"'
       mkdir -p $out/share/icons/hicolor/scalable/apps
       gm convert "./source/blood/rsrc/game_icon.ico" $out/share/icons/hicolor/scalable/apps/nblood.png
     ''
