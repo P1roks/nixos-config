@@ -12,7 +12,7 @@
         text = ''
           case $BLOCK_BUTTON in
             "$leftMouseButton")
-              notify-send " " "$(cal --color=always | sed 's|.\[7m|<b><span color=\"red\">|;s|.\[0m|</span></b>|')" ;;
+              notify-send " " "$(cal --color=always -m | sed 's|.\[7m|<b><span color=\"red\">|;s|.\[0m|</span></b>|')" ;;
           esac
 
           echo  "$(date "+%H:%M")" 

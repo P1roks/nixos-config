@@ -2,7 +2,7 @@
 let
   nixvim = import (builtins.fetchGit {
     url = "https://github.com/nix-community/nixvim";
-    ref = "nixos-24.11";
+    ref = "nixos-25.05";
   });
 in
 {
@@ -88,35 +88,40 @@ in
       }
     ];
 
+    diagnostic.settings = {
+      virtual_text = true;
+      signs = false;
+    };
+
     plugins = {
       nvim-autopairs.enable = true;
       comment.enable = true;
       mini.enable = true;
       web-devicons.enable = true;
 
-      nvim-colorizer = {
+      colorizer = {
         enable = true;
 
-        fileTypes = [
-          "*"
-          {
-            language = "css";
-            names = true;
-            css = true;
-          }
-          {
-            language = "scss";
-            names = true;
-            css = true;
-          }
-        ];
+        settings = {
+          fileTypes = [
+            "*"
+            # css = {
+            #  names = true;
+            #  css = true;
+            # }
+            # scss = {
+            #  names = true;
+            #  css = true;
+            # }
+          ];
 
-        userDefaultOptions = {
-          RGB = true;
-          RRGGBB = true;
-          names = false;
-          RRGGBBAA = true;
-          AARRGGBB = true;
+          userDefaultOptions = {
+            RGB = true;
+            RRGGBB = true;
+            names = false;
+            RRGGBBAA = true;
+            AARRGGBB = true;
+          };
         };
       };
 

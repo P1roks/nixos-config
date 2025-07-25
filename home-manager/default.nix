@@ -2,7 +2,7 @@
 let
   home-manager = builtins.fetchGit{
     url = "https://github.com/nix-community/home-manager";
-    ref = "release-24.11";
+    ref = "release-25.05";
   };
 in
 {
@@ -30,6 +30,11 @@ in
         ${xorg.xset}/bin/xset r rate 300 40
         $(${coreutils}/bin/sleep 1 && ${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr) &
       '';
+    };
+
+    programs.zoxide = {
+      enable = true;
+      enableFishIntegration = true;
     };
 
     programs.alacritty = {

@@ -26,9 +26,10 @@
     jetbrains.pycharm-community-bin
     mitmproxy
     insomnia
+    jdk
     firefox
     # tex related
-    (texliveBasic.withPackages (ps: with ps; [
+    (texliveBasic.withPackages (pkgs: with pkgs; [
       xcolor
       transparent
       collection-fontsrecommended
@@ -98,6 +99,7 @@
     xdragon
     pandoc
     poppler_utils
+    obsidian
     # parsers
     jq
     yq

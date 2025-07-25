@@ -1,4 +1,4 @@
-From fa25cdc31edb77691a8c03b6ac0c4d142e03a049 Mon Sep 17 00:00:00 2001
+From 1fae1cce7c1d2a0b32077b8a8b125434ae194f92 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
 Subject: [PATCH] Custom config
@@ -1288,5 +1288,5 @@ index 67c6b2b..524ea61 100644
 +		focus(c);
 +}
 -- 
-2.47.0
+2.47.2
 

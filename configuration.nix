@@ -56,11 +56,10 @@
     packages = with pkgs; [
       iosevka
       noto-fonts
-      nerdfonts
       google-fonts
       minecraft-font
       vhs-font
-    ];
+    ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
     fontconfig = {
       defaultFonts = {
         monospace = ["Iosevka"];
@@ -103,6 +102,25 @@
       /etc/nixos/patches/dwmblocks.patch
     ];
 
+  };
+
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocales = [ "en_GB.UTF-8/UTF-8" "pl_PL.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" ];
+    extraLocaleSettings = {
+      LC_MEASUREMENT="pl_PL.UTF-8";
+      LC_TIME="pl_PL.UTF-8";
+      LC_ADDRESS="pl_PL.UTF-8";
+      LC_MONETARY="pl_PL.UTF-8";
+      LC_TELEPHONE="pl_PL.UTF-8";
+      LC_CTYPE="en_US.UTF-8";
+      LC_NUMERIC="en_US.UTF-8";
+      LC_COLLATE="en_US.UTF-8";
+      LC_MESSAGES="en_US.UTF-8";
+      LC_PAPER="en_US.UTF-8";
+      LC_NAME="en_US.UTF-8";
+      LC_IDENTIFICATION="en_US.UTF-8";
+    };
   };
 
   services.libinput = {
@@ -158,16 +176,6 @@
         };
       }
     ];
-  };
-
-  services.mongodb = {
-    enable = true;
-    package = pkgs.mongodb-ce; 
-  };
-
-  services.redis.servers."" = {
-    enable = true;
-    databases = 1;
   };
 
   environment.variables = {
