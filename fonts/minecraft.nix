@@ -6,7 +6,7 @@
 stdenvNoCC.mkDerivation {
   pname = "minecraft-font";
   version = "1.20";
-  src = ./minecraft.ttf;
+  src = ./minecraft.ttf; #https://www.dafont.com/minecraft.font
 
   phases = ["installPhase"];
 

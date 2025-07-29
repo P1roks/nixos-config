@@ -1,7 +1,4 @@
 {pkgs, config, ...}:
-let
-  home = "${config.home.homeDirectory}";
-in 
 {
   xdg = {
     enable = true;
@@ -103,7 +100,10 @@ in
       };
     };
 
-    userDirs = {
+    userDirs = 
+      let
+        home = "${config.home.homeDirectory}";
+      in {
       enable = true;
       desktop = "${home}/desktop";
       documents = "${home}/documents";

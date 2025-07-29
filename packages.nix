@@ -1,16 +1,11 @@
 { pkgs, ... }:
 {
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
   
   imports = [ ./scripts ];
 
   environment.systemPackages =
   with pkgs; [
-    discord
     # nix related
     nix-tree
     nixpkgs-fmt
@@ -23,10 +18,9 @@
     lld
     gcc
     sass
-    jetbrains.pycharm-community-bin
+    # web hacking
     mitmproxy
     insomnia
-    jdk
     firefox
     # tex related
     (texliveBasic.withPackages (pkgs: with pkgs; [
@@ -38,12 +32,9 @@
     ]))
     # databases
     mycli
-    mongosh
     # graphics
     gimp
     inkscape
-    imagemagick
-    lorien
     # essential
     alacritty
     brave
@@ -59,6 +50,9 @@
     hunspell
     hunspellDicts.en-us
     hunspellDicts.pl-pl
+    # note-taking / thinking
+    obsidian
+    lorien
     # GPU
     vulkan-tools
     vulkan-loader
@@ -99,7 +93,7 @@
     xdragon
     pandoc
     poppler_utils
-    obsidian
+    imagemagick
     # parsers
     jq
     yq
@@ -120,7 +114,6 @@
     nblood
     blood_picker
     # misc
-    volantes-cursors
     xclip
     ueberzugpp
     openssl

@@ -6,7 +6,7 @@
 stdenvNoCC.mkDerivation {
   pname = "VHS-font";
   version = "1.20";
-  src = ./VHS.ttf;
+  src = ./VHS.ttf; #https://www.dafont.com/minecraft.font
 
   phases = ["installPhase"];
 

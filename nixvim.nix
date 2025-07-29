@@ -103,17 +103,7 @@ in
         enable = true;
 
         settings = {
-          fileTypes = [
-            "*"
-            # css = {
-            #  names = true;
-            #  css = true;
-            # }
-            # scss = {
-            #  names = true;
-            #  css = true;
-            # }
-          ];
+          fileTypes = [ "*" ];
 
           userDefaultOptions = {
             RGB = true;
@@ -249,7 +239,7 @@ in
           nixd = {
             enable = true;
             settings = {
-              nixpkgs.expr = "import <nixpkgs> { }";
+              nixpkgs.expr = "import <nixpkgs> {}";
               formatting.command = [ "nixpkgs-fmt" ];
             };
           };
@@ -285,10 +275,6 @@ in
             enable = true;
             installCargo = true;
             installRustc = true;
-          };
-
-          volar = {
-            enable = true;
           };
         };
       };

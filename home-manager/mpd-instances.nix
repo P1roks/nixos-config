@@ -3,7 +3,6 @@
 with lib;
 
 let
-
   cfg = config.services.mpdInstances;
 
   configs = listToAttrs

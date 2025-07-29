@@ -16,6 +16,7 @@
     gc = {
       automatic = true;
       dates = "weekly";
+      persistent = true;
     };
 
     settings = {
@@ -35,14 +36,12 @@
     };
   };
 
-  boot = {
-    loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 3;
-      };
-      efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 3;
     };
+    efi.canTouchEfiVariables = true;
   };
 
   networking = {
@@ -165,6 +164,12 @@
     };
   };
 
+  environment.variables = {
+    BROWSER = "zen";
+    EDITOR = "nvim";
+    TERMINAL = "alacritty";
+  };
+
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
@@ -176,12 +181,6 @@
         };
       }
     ];
-  };
-
-  environment.variables = {
-    BROWSER = "zen";
-    EDITOR = "nvim";
-    TERMINAL = "alacritty";
   };
 
   programs = {
