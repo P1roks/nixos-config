@@ -127,6 +127,7 @@
     pshot
     volume_control
     brightness_control
+    spawn_session_shell
     # "symlinks"
     (writeScriptBin "sudo" ''exec doas "$@"'')
     (writeScriptBin "podcast" ''mpc -p 6601 "$@"'')

@@ -8,5 +8,6 @@
     ./volume_control.nix
     ./brightness_control.nix
     ./blood_picker.nix
+    ./spawn_session_shell.nix
   ];
 }

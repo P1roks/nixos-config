@@ -156,8 +156,8 @@
     jack.enable = true;
   };
 
-  users = {
-    users.piroks = {
+  users.users = {
+    piroks = {
       isNormalUser = true;
       shell = pkgs.fish;
       extraGroups = [ "wheel" "audio" "video" "networkmanager"];

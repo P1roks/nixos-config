@@ -50,6 +50,11 @@ in
         mode = "n";
       }
       {
+        key = "<leader>x";
+        action = "<cmd>Ex<CR>";
+        mode = "n";
+      }
+      {
         key = "<space>";
         action = "<Nop>";
         mode = "n";
@@ -61,10 +66,10 @@ in
     };
 
     autoCmd = [
-      # nix config files have 2-width tabs
+      # nix & haskell files have 2-width tabs
       {
         event = ["Filetype"];
-        pattern = ["nix"];
+        pattern = ["nix" "haskell"];
         command = "setlocal tabstop=2 shiftwidth=2";
       }
       # autocompile scss (style.s[c|a]ss file)
@@ -79,7 +84,6 @@ in
         pattern = [ "*.ejs" "*.handlebars" "*.hbs"];
         command = "set filetype=html";
       }
-
       # Change working directory to the first opened file directory
       {
         event = ["VimEnter"];
@@ -143,7 +147,8 @@ in
           auto_install = true;
           ensure_installed = [
             "diff" "dockerfile" "awk"
-            "bash" "fish" "nix"
+            "bash" "fish"
+            "haskell" "nix"
             "yaml" "toml" "json"
             "html" "css" "scss"
             "javascript" "typescript" "tsx"
@@ -235,6 +240,11 @@ in
           emmet_ls.enable = true;
           texlab.enable = true;
           pyright.enable = true;
+
+          hls = {
+            enable = true;
+            installGhc = true;
+          };
 
           nixd = {
             enable = true;

@@ -22,6 +22,10 @@
   };
 
   hardware.nvidia.open = true;
+  hardware.openrazer = {
+    enable = true;
+    users = [ "piroks" ];
+  };
 
   services.xserver = {
     videoDrivers = [ "nvidia" ];
