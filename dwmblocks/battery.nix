@@ -20,11 +20,30 @@
             echo "$msg";
           }
 
+          mode_path=(/sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode)
+          curr_mode=""
+          if test -f "''${mode_path[@]}"; then
+            curr_mode=$(cat "''${mode_path[@]}")
+          fi
+
           case $BLOCK_BUTTON in 
             "$leftMouseButton")
               notify-send "batteries" "$(get_capacities)"
             ;;
+            "$rightMouseButton")
+              if test ! -z "''${curr_mode}"; then
+                curr_mode="$((1 - curr_mode))"
+                echo "$curr_mode" > "''${mode_path[@]}"
+                if test "$curr_mode" = "1"; then
+                  notify-send "Conservation Mode:ON"
+                else
+                  notify-send "Conservation Mode:OFF"
+                fi
+              fi
+            ;;
           esac
+
+          if test ! -z "''${curr_mode}" && test "$curr_mode" = "1"; then printf "󰌪"; fi
 
           for battery in /sys/class/power_supply/BAT?*; do
             bat_status=$(cat "$battery/status");

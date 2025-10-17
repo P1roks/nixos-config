@@ -120,6 +120,7 @@
     libidn2
     libpsl
     nghttp2.lib
+    geteduroam
     #scripts
     tag_album
     add_album

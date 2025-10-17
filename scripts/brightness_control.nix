@@ -8,15 +8,15 @@
         bashOptions = ["errexit" "pipefail" "errtrace"];
 
         text = ''
-          max="$(cat /sys/class/backlight/*/max_brightness)";
+          max="$(cat /sys/class/backlight/intel_backlight/max_brightness)";
         
           get_percentage() {
-            current="$(cat /sys/class/backlight/*/brightness)";
+            current="$(cat /sys/class/backlight/intel_backlight/brightness)";
             echo "$(("$current" * 100 / "$max"))"
           }
 
           set_percentage() {
-            echo "$(($1 * max / 100))" > /sys/class/backlight/*/brightness
+            echo "$(($1 * max / 100))" > /sys/class/backlight/intel_backlight/brightness
           }
 
           notify() {
