@@ -10,17 +10,6 @@
         runtimeInputs = with pkgs; [ gawk  networkmanager];
         
         text = ''
-          # choose_wifi(){
-          #     wifi="$(nmcli device wifi list | tail -n +2 | cut -c 9- | awk '{printf "%s %s%%\n",$2,$7}' | dmenu -i | awk '{print $1}')";
-          #     [ -z $wifi ] && exit
-          #     password="$(dmenu -i -p Password)";
-          #     nmcli device wifi connect "$wifi" password "$password;"
-          # }
-          #
-          # case $BLOCK_BUTTON in
-          #     1) choose_wifi;;
-          # esac
-
           # I hate bash
           get_hotspot_status(){
             awk '$1 ~ /w.*/ && $2 == "00002A0A"' /proc/net/route
@@ -35,31 +24,30 @@
           }
 
           toggle_hotspot(){
-            wifi_status="$(nmcli dev status | awk '$1 ~ /^w.*$/ {print $3}')"
-            wifi_status="''${wifi_status:-}"
-            if test "$wifi_status" != "connected"; then
-              wifi_device="$(find /sys/class/net/w*)"
-              wifi_device="''${wifi_device:-}"
-              wifi_device="''${wifi_device##*/}"
-              if test ! -z "$wifi_device"; then
-                if "$(is_hotspot_on)"; then
-                  nmcli con down Hotspot > /dev/null && notify-send "Hotspot: Off"
-                else
-                  nmcli dev wifi hotspot ifname "$wifi_device" ssid NixOS password functional > /dev/null && notify-send "Hotspot: On"
-                fi
+            wifi_status=$(nmcli dev status | awk 'BEGIN {status=0} $1 ~ /^w.*$/ && ($3 != "connected" || $4 == "Hotspot") {status=1} END {print status}')
+            wifi_device=$(basename "$(find /sys/class/net -maxdepth 1 -type l -name 'w*' | head -n1)")
+            if test "$wifi_status" == "1" && test ! -z "$wifi_device"; then
+              if is_hotspot_on; then
+                nmcli con down Hotspot > /dev/null && notify-send "Hotspot: Off"
+              else
+                nmcli dev wifi hotspot ifname "$wifi_device" ssid NixOS password functional > /dev/null && notify-send "Hotspot: On"
               fi
             fi
           }
 
           case $BLOCK_BUTTON in
+            "$leftMouseButton")
+              alacritty -e nmtui
+            ;;
             "$rightMouseButton")
               toggle_hotspot
+              pkill -RTMIN+4 dwmblocks
             ;;
           esac
 
-          if "$(is_hotspot_on)"; then
+          if is_hotspot_on; then
             echo "󱄙" && exit 0
-          elif "$(is_ethernet_on)"; then
+          elif is_ethernet_on; then
             echo "" && exit 0;
           fi
 

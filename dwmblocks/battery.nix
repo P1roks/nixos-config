@@ -39,6 +39,7 @@
                 else
                   notify-send "Conservation Mode:OFF"
                 fi
+                pkill -RTMIN+3 dwmblocks
               fi
             ;;
           esac
