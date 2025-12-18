@@ -79,6 +79,11 @@
           /etc/nixos/patches/dwm.patch
         ];
         buildInputs = previousAttrs.buildInputs ++ [pkgs.imlib2];
+        version = "6.5";
+        src = builtins.fetchurl {
+          url = "https://dl.suckless.org/dwm/dwm-6.5.tar.gz";
+          sha256 = "sha256-Ideev6ny+5MUGDbCZmy4H0eExp1k5/GyNS+blwuglyk=";
+        };
       });
     };
 

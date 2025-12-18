@@ -64,7 +64,7 @@
     # sound / music
     easyeffects
     pavucontrol
-    mpc-cli
+    mpc
     mpv
     ncmpcpp
     python312Packages.mutagen
@@ -90,9 +90,9 @@
     sxiv
     ripgrep
     yt-dlp
-    xdragon
+    dragon-drop
     pandoc
-    poppler_utils
+    poppler-utils
     imagemagick
     # parsers
     jq
@@ -106,7 +106,7 @@
     # gaming
     heroic
     mangohud
-    protonup
+    protonup-ng
     lutris
     #games
     prismlauncher

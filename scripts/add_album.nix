@@ -6,7 +6,7 @@
         name = "add_album";
 
         bashOptions = ["errexit" "pipefail" "errtrace"];
-        runtimeInputs = with pkgs; [mpc-cli gnused];
+        runtimeInputs = with pkgs; [mpc gnused];
 
         text = ''
           has_argument() {

@@ -2,7 +2,7 @@
 let
   nixvim = import (builtins.fetchGit {
     url = "https://github.com/nix-community/nixvim";
-    ref = "nixos-25.05";
+    ref = "nixos-25.11";
   });
 in
 {
@@ -256,11 +256,11 @@ in
 
           clangd = {
             enable = true;
-            extraOptions = {
-              init_options = {
-                fallbackFlags = ["--std=c++20"];
-              };
-            };
+            # extraOptions = {
+            #   init_options = {
+            #     fallbackFlags = ["--std=c++20"];
+            #   };
+            # };
           };
 
           ts_ls =

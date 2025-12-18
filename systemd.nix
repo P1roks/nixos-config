@@ -21,7 +21,7 @@
 
   systemd.user.services.mpdIdle = 
   let
-    mpc = "${pkgs.mpc-cli}/bin/mpc";
+    mpc = "${pkgs.mpc}/bin/mpc";
     pkill = "${pkgs.procps}/bin/pkill";
   in
   {

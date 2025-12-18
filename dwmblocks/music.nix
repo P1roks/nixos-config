@@ -7,7 +7,7 @@
         
         bashOptions = ["errexit" "pipefail" "errtrace"];
         runtimeEnv = import ./buttons.nix;
-        runtimeInputs = with pkgs; [ mpc-cli rofi gnused gawk ];
+        runtimeInputs = with pkgs; [ mpc rofi gnused gawk ];
         
         text = ''
           filter() { mpc -f "%title%" | sed "/^volume:/d;s/\\&/&/g;s/\\[paused\\].*//g;/\\[playing\\].*/d;/^ERROR/Q" | paste -sd ' ' -;}

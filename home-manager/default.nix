@@ -2,7 +2,7 @@
 let
   home-manager = builtins.fetchGit{
     url = "https://github.com/nix-community/home-manager";
-    ref = "release-25.05";
+    ref = "release-25.11";
   };
 in
 {
@@ -117,8 +117,10 @@ in
 
     programs.git = {
       enable = true;
-      userName = "P1roks";
-      userEmail = "piotrekjakobczyk1@gmail.com";
+      settings = {
+        user.name = "P1roks";
+        user.email = "piotrekjakobczyk1@gmail.com";
+      };
     };
 
     programs.gh = {

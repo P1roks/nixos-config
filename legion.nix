@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 {
   boot.initrd = {
-    # kernelModules = [ "nvidia" ];
+    kernelModules = [ "nvidia" ];
     luks.devices = {
       crypted = {
         device = "/dev/disk/by-uuid/96de9cd5-2227-4372-bbd8-124969e521fd";
@@ -10,49 +10,51 @@
     };
   };
 
-  # boot.extraModulePackages = with config.boot.kernelPackages; [
-  #   lenovo-legion-module
-  #   nvidia_x11
-  # ];
-  #
-  # hardware.nvidia = {
-  #   open = false;
-  #   modesetting.enable = false;
-  #   nvidiaSettings = true;
-  #   prime = {
-  #     offload = {
-  #       enable = true;
-  #       enableOffloadCmd = true;
-  #     };
-  #     # sync.enable = true;
-  #     intelBusId = "PCI:00:02:0";
-  #     nvidiaBusId = "PCI:01:00:0";
-  #   };
-  # };
-  # # Some setting is implicitly setting nvidia-drm.modeset=1
-  # # and due to early KMS activation (whatever that means)
-  # # that borks my system
-  # # this setting is explicitly setting modeset=0
-  # # This should've never been done
-  # # But it was, oh well
-  # boot.kernelParams = lib.mkForce [
-  #   "loglevel=4"
-  #   "lsm=landlock,yama,bpf"
-  #   "nvidia-drm.modeset=0"
-  #   "nvidia-drm.fbdev=1"
-  # ];
-  #
-  # boot.extraModprobeConfig = ''
-  #   options nvidia-drm modeset=0
-  #   options nvidia NVreg_DynamicPowerManagement=0x02
-  # '';
-  #
-  # services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    lenovo-legion-module
+    nvidia_x11
+  ];
+
+  hardware.nvidia = {
+    open = false;
+    modesetting.enable = false;
+    nvidiaSettings = true;
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      # sync.enable = true;
+      intelBusId = "PCI:00:02:0";
+      nvidiaBusId = "PCI:01:00:0";
+    };
+  };
+  # Some nix setting is implicitly setting nvidia-drm.modeset=1
+  # and due to early KMS activation (whatever that means)
+  # that borks my system
+  # this setting is explicitly setting modeset=0
+  # This should've never been done
+  # But it was, oh well
+  boot.kernelParams = lib.mkForce [
+    "loglevel=4"
+    "lsm=landlock,yama,bpf"
+    "nvidia-drm.modeset=0"
+    "nvidia-drm.fbdev=1"
+  ];
 
   boot.extraModprobeConfig = ''
-    blacklist nouveau
-    options nouveau modeset=0
+    options nvidia-drm modeset=0
+    options nvidia NVreg_DynamicPowerManagement=0x02
   '';
+
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+
+  # boot.extraModprobeConfig = ''
+  #   blacklist nouveau
+  #   options nouveau modeset=0
+  # '';
+
+  # boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
   
   services.udev.extraRules =
   let disableNvidia = ''
@@ -75,9 +77,8 @@
     # allow the toggle of conservation mode
     RUN+="${pkgs.coreutils}/bin/chgrp video /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
     RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
-  '' + disableNvidia;
+  ''; # + disableNvidia;
 
-  boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 
   powerManagement.powertop.enable = true;
   services = {
