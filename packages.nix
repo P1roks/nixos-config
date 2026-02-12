@@ -38,13 +38,14 @@
     # essential
     alacritty
     brave
-    ranger
+    ranger # TODO: investigate changing to yazi
     neofetch
     rofi
     vesktop
     scrot
     cryptsetup
     (builtins.getFlake "github:youwen5/zen-browser-flake").packages.${builtins.currentSystem}.default
+    gemini-cli
     # word processing
     libreoffice-qt6-fresh
     hunspell

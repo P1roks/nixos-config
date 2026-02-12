@@ -32,12 +32,12 @@ in
       '';
     };
 
-    programs.zoxide = {
+    programs.zoxide = { # TODO: start using z instead of cd
       enable = true;
       enableFishIntegration = true;
     };
 
-    programs.alacritty = {
+    programs.alacritty = { # TODO: investigate changing to ghostty
       enable = true;
       settings = {
 
@@ -127,7 +127,7 @@ in
       enable = true;
     };
 
-    programs.zathura = {
+    programs.zathura = { # TODO: investigate changing to readest
       enable = true;
       options = {
         guioptions = "";

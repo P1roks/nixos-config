@@ -193,7 +193,7 @@
     gamemode.enable = true;
     fish.enable = true;
 
-    git = {
+    git = { # TODO: investigate changing to jj
       enable = true;
       config = {
         init.defaultBranch = "main";

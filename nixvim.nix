@@ -225,7 +225,8 @@ in
           lspBuf = {
             gD = "declaration";
             K = "hover";
-            "gR" = "rename";
+            gR = "rename";
+            gC = "code_action";
           };
           diagnostic = {
             "<leader>e" = "open_float";
