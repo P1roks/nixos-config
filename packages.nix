@@ -5,6 +5,15 @@
   imports = [ ./scripts ];
 
   environment.systemPackages =
+  # let
+  #   gemini = pkgs.gemini-cli-bin.overrideAttrs (finalAttrs: previousAttrs: {
+  #       version = "0.32.1";
+  #       src = builtins.fetchurl {
+  #         url = "https://github.com/google-gemini/gemini-cli/releases/download/v${finalAttrs.version}/gemini.js";
+  #         sha256 = "0vv7xfpn150x82xpq6wyfm0pkz1scfnrq2ibhp1zpriylv776spl";
+  #       };
+  #     });
+  # in 
   with pkgs; [
     # nix related
     nix-tree
@@ -36,7 +45,6 @@
     gimp
     inkscape
     # essential
-    alacritty
     brave
     ranger # TODO: investigate changing to yazi
     neofetch
@@ -45,7 +53,7 @@
     scrot
     cryptsetup
     (builtins.getFlake "github:youwen5/zen-browser-flake").packages.${builtins.currentSystem}.default
-    gemini-cli
+    gemini-cli-bin
     # word processing
     libreoffice-qt6-fresh
     hunspell
@@ -122,6 +130,7 @@
     libpsl
     nghttp2.lib
     geteduroam
+    quarto
     #scripts
     tag_album
     add_album

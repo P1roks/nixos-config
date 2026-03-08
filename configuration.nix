@@ -9,6 +9,7 @@
     ./own-packages
     ./systemd.nix
     ./packages.nix
+    ./overlays.nix
     ./machine.nix # this file is a symlink to a machine-specific config
   ];
 

@@ -39,6 +39,7 @@ in
 
     programs.alacritty = { # TODO: investigate changing to ghostty
       enable = true;
+      package = pkgs.alacritty-graphics;
       settings = {
 
         window.opacity = 0.8;
