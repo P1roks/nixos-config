@@ -37,7 +37,7 @@
 
           case $BLOCK_BUTTON in
             "$leftMouseButton")
-              alacritty -e nmtui
+              $TERMINAL -e nmtui
             ;;
             "$rightMouseButton")
               toggle_hotspot

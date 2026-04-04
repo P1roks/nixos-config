@@ -6,13 +6,13 @@
     desktopEntries = {
       ranger-open =
       let
-        alacritty = "${pkgs.alacritty}/bin/alacritty";
+        terminal = "${pkgs.ghostty}/bin/ghostty";
         ranger = "${pkgs.ranger}/bin/ranger";
       in {
         type = "Application";
         name = "ranger";
         terminal = false;
-        exec = "${alacritty} -e ${ranger} %f";
+        exec = "${terminal} -e ${ranger} %f";
         categories = [ "ConsoleOnly" "System" "FileTools" "FileManager" ];
         mimeType = [ "inode/directory" ];
         settings = {
@@ -22,13 +22,13 @@
 
       mpv-audio-open =
       let
-        alacritty = "${pkgs.alacritty}/bin/alacritty";
+        terminal = "${pkgs.ghostty}/bin/ghostty";
         mpv = "${pkgs.mpv}/bin/mpv";
       in {
         type = "Application";
         name = "mpv-audio-open";
         terminal = false;
-        exec = "${alacritty} -e ${mpv} --no-video %f";
+        exec = "${terminal} -e ${mpv} --no-video %f";
         categories = [ "ConsoleOnly" "System" "FileTools" "FileManager" ];
         mimeType = [ "audio/aac" "audio/midi" "audio/x-midi" "audio/mpeg" "audio/ogg" "audio/wav" "audio/webm" "audio/3gpp" "audio/3gpp2" ];
       };

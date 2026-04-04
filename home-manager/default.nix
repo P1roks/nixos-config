@@ -73,6 +73,21 @@ in
       };
     };
 
+    programs.ghostty = {
+      enable = true;
+      installVimSyntax = true;
+      enableFishIntegration = true;
+      settings = {
+        theme = "Gruvbox Dark";
+        font-family = "Iosevka";
+        font-feature = "-calt";
+        font-size = 21;
+        background-opacity = 0.8;
+        window-decoration = "none";
+      };
+      systemd.enable = true;
+    };
+
     services.dunst = {
       enable = true;
       settings = {
@@ -160,6 +175,10 @@ in
         scroll-step = 50;
         database = "sqlite";
       };
+    };
+
+    programs.sioyek = {
+      enable = true;
     };
 
     programs.fish = {

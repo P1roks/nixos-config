@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, options, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -23,6 +23,10 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
     };
+
+    nixPath = options.nix.nixPath.default ++ [
+      "nixpkgs-overlays=/etc/nixos/overlays-compat/"
+    ];
   };
 
   hardware = {
@@ -37,12 +41,18 @@
     };
   };
 
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 3;
+  boot = {
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 3;
+      };
+      efi.canTouchEfiVariables = true;
     };
-    efi.canTouchEfiVariables = true;
+    supportedFilesystems = {
+      exfat = true;
+      ntfs = true;
+    };
   };
 
   networking = {
@@ -142,7 +152,12 @@
 
   security = {
     rtkit.enable = true;
-    sudo.enable = false;
+    sudo = {
+      enable = true;
+      extraConfig = ''
+        Defaults always_set_home
+      '';
+    };
 
     doas = {
       enable = true;
@@ -150,6 +165,10 @@
         groups = [ "wheel" ];
         persist = true;
         keepEnv = true;
+        setEnv = [
+          "HOME=/root"
+          "XDG_CACHE_HOME=/root/.cache"
+        ];
       }];
     };
   };
@@ -160,6 +179,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     jack.enable = true;
+    wireplumber.enable = true;
   };
 
   users.users = {
@@ -173,7 +193,7 @@
   environment.variables = {
     BROWSER = "zen";
     EDITOR = "nvim";
-    TERMINAL = "alacritty";
+    TERMINAL = "ghostty";
   };
 
   services.mysql = {

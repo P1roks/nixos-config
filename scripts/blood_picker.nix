@@ -5,22 +5,22 @@
       blood_picker = pkgs.writeShellApplication {
         name = "blood_picker";
 
-        runtimeInputs = with pkgs; [ nblood rofi ];
+        runtimeInputs = with pkgs; [ notblood rofi ];
 
         text = ''
-          nblood_dir="/var/lib/games/nblood"
+          notblood_dir="/var/lib/games/notblood"
 
           declare -A launch_options
 
           while read -r line; do
               [[ $line = *=* ]] && launch_options[''${line%%=*}]=''${line#*=}
-          done < "$nblood_dir/launch_options.txt"
+          done < "$notblood_dir/launch_options.txt"
 
           autoload=()
 
           while IFS= read -r -d $'\0'; do
               autoload+=("-grp" "autoload/$REPLY")
-          done < <(find "$nblood_dir/autoload" -type f -printf "%f\0")
+          done < <(find "$notblood_dir/autoload" -type f -printf "%f\0")
 
           selected=$(printf "%s\n" "''${!launch_options[@]}" | sort | rofi -i -dmenu -sort "true")
 
@@ -28,7 +28,7 @@
           IFS=" " read -r -a flags <<< "''${launch_options[$selected]}"
           flags+=("''${autoload[@]}")
 
-          nblood "''${flags[@]}"
+          notblood "''${flags[@]}"
         '';
       };
     })

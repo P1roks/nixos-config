@@ -70,14 +70,20 @@ in
       {
         mode = "n";
         key = "<leader>mi";
-        action = "<cmd>MoltenInit<CR>";
-        options = { silent = true; desc = "Molten Init"; };
+        action = "<cmd>MoltenImportOutput<CR>";
+        options = { silent = true; desc = "Molten Import Output"; };
       }
       {
         mode = "n";
         key = "<leader>me";
-        action = "<cmd>MoltenEvaluateOperator<CR>";
-        options = { silent = true; desc = "Molten Evaluate Operator"; };
+        action = "<cmd>noautocmd MoltenEnterOutput<CR><cmd>noautocmd MoltenEnterOutput<CR>";
+        options = { silent = true; desc = "Molten Enter Output"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>mp";
+        action = "<cmd>MoltenImagePopup<CR>";
+        options = { silent = true; desc = "Molten Image Popup"; };
       }
       {
         mode = "n";
@@ -166,6 +172,18 @@ in
         pattern = [ "*" ];
         command = "cd %:p:h";
       }
+      # add \lF command to VimTex
+      {
+        event = ["Filetype"];
+        pattern = ["tex" "latex"];
+        command = "nnoremap <silent><buffer> \\lF <cmd>VimtexStop<CR><cmd>execute 'silent !rm ' . get(g:vimtex_compiler_latexmk, 'out_dir', '.') . '/*.synctex.gz 2>/dev/null'<CR><cmd>VimtexClean<CR>";
+      }
+      # Export jupyter notebook after saving
+      {
+        event = ["BufWritePost"];
+        pattern = ["*.ipynb"];
+        command = "MoltenExportOutput!";
+      }
     ];
 
     diagnostic.settings = {
@@ -215,10 +233,31 @@ in
         };
       };
 
+      vimtex = {
+        enable = true;
+        settings = {
+          view_method = "sioyek";
+          compiler_latexmk = {
+            aux_dir = ".texaux";
+            engines = {
+              "_" = "-lualatex";
+            };
+            options = [
+              "-verbose"
+              "-file-line-error"
+              "-synctex=1"
+              "-interaction=nonstopmode"
+              "-shell-escape"
+            ];
+          };
+        };
+      };
+
       treesitter = {
         enable = true;
         nixGrammars = true;
         nixvimInjections = true;
+
         settings = {
           auto_install = true;
           ensure_installed = [
@@ -231,23 +270,35 @@ in
             "c" "cpp" "rust"
             "kotlin" "scala" "java"
             "make" "cmake"
+            "markdown"
           ];
-          highlight.enable = true;
+          ignore_install = [
+            "tex"
+            "latex"
+          ];
+          highlight = {
+            enable = true;
+            disable = [ "latex" "tex" ];
+          };
           incremental_selection.enable = true;
-          indent.enable = true;
+          indent = {
+            enable = true;
+            disable = [ "latex" "tex" ];
+          };
         };
       };
 
       telescope = {
         enable = true;
         keymaps = {
-            "<c-p>".action = "find_files";
-            "<a-p>".action = "oldfiles";
-            gl.action = "treesitter";
-            gr.action = "lsp_references";
-            gi.action = "lsp_implementations";
-            gd.action = "lsp_definitions";
-            gt.action = "lsp_type_definitions";
+          "<c-p>".action = "find_files";
+          "<a-p>".action = "oldfiles";
+          gl.action = "treesitter";
+          gr.action = "lsp_references";
+          gi.action = "lsp_implementations";
+          gd.action = "lsp_definitions";
+          gt.action = "lsp_type_definitions";
+          # "\\lF".action = "<cmd>VimtexStop | execute 'silent !mv build/*.pdf . 2>/dev/null' | VimtexClean!<CR>";
         };
       };
 
@@ -273,7 +324,7 @@ in
         enable = true;
         package = package;
         settings = {
-          backend = "sixel";
+          backend = "kitty";
           max_height = 800;
           max_width = 81;
           max_height_window_percentage.__raw = "math.huge";
@@ -413,11 +464,11 @@ in
 
           clangd = {
             enable = true;
-            # extraOptions = {
-            #   init_options = {
-            #     fallbackFlags = ["--std=c++20"];
-            #   };
-            # };
+            extraOptions = {
+              init_options = {
+                fallbackFlags = ["--std=c++23"];
+              };
+            };
           };
 
           ts_ls =

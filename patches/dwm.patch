@@ -1,4 +1,4 @@
-From 062bd4169e2c8cf72df1ae3fdf6384ade77390ff Mon Sep 17 00:00:00 2001
+From 7b991b9fefb1894ea761a0a534168f55876b0837 Mon Sep 17 00:00:00 2001
 From: P1roks <piotrekjakobczyk1@gmail.com>
 Date: Wed, 31 Aug 2022 00:25:59 +0200
 Subject: [PATCH] Custom config
@@ -145,7 +145,7 @@ index 95d4fd0..0000000
 -The configuration of dwm is done by creating a custom config.h
 -and (re)compiling the source code.
 diff --git a/config.def.h b/config.def.h
-index 9efa774..5b2a9a8 100644
+index 9efa774..d402886 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -1,13 +1,18 @@
@@ -229,7 +229,7 @@ index 9efa774..5b2a9a8 100644
 -static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 -static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 -static const char *termcmd[]  = { "st", NULL };
-+static const char *termcmd[]  = { "alacritty", NULL };
++static const char *termcmd[]  = { "ghostty", NULL };
  
  static const Key keys[] = {
 -	/* modifier                     key        function        argument */

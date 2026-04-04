@@ -1,19 +1,41 @@
 { pkgs, ... }:
+let
+ texLive =  
+    pkgs.texliveMedium.withPackages (pkgs: with pkgs; [
+      xcolor
+      transparent
+      collection-fontsrecommended
+      collection-langenglish
+      collection-langpolish
+      hyperref
+      etoolbox
+      amsmath
+      hypcap
+      latex-uni8
+      babel
+      float
+      listingsutf8
+      upquote
+      lineno
+      fvextra
+      catchfile
+      xstring
+      framed
+      fancyvrb
+      ifplatform
+      pdftexcmds
+      kvoptions
+      latexmk
+      luatex
+      piton
+    ]);
+in 
 {
   nixpkgs.config.allowUnfree = true;
   
   imports = [ ./scripts ];
 
   environment.systemPackages =
-  # let
-  #   gemini = pkgs.gemini-cli-bin.overrideAttrs (finalAttrs: previousAttrs: {
-  #       version = "0.32.1";
-  #       src = builtins.fetchurl {
-  #         url = "https://github.com/google-gemini/gemini-cli/releases/download/v${finalAttrs.version}/gemini.js";
-  #         sha256 = "0vv7xfpn150x82xpq6wyfm0pkz1scfnrq2ibhp1zpriylv776spl";
-  #       };
-  #     });
-  # in 
   with pkgs; [
     # nix related
     nix-tree
@@ -32,13 +54,7 @@
     insomnia
     firefox
     # tex related
-    (texliveBasic.withPackages (pkgs: with pkgs; [
-      xcolor
-      transparent
-      collection-fontsrecommended
-      hyperref
-      etoolbox
-    ]))
+    texLive
     # databases
     mycli
     # graphics
@@ -76,7 +92,8 @@
     mpc
     mpv
     ncmpcpp
-    python312Packages.mutagen
+    python313Packages.mutagen
+    python313Packages.pygments
     pulsemixer
     alsa-utils
     # video
@@ -103,6 +120,7 @@
     pandoc
     poppler-utils
     imagemagick
+    rars
     # parsers
     jq
     yq
@@ -121,6 +139,7 @@
     prismlauncher
     packwiz
     nblood
+    notblood
     blood_picker
     # misc
     xclip
@@ -144,4 +163,6 @@
     (writeScriptBin "podcast" ''mpc -p 6601 "$@"'')
     (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
   ];
+
+  programs.nixvim.plugins.vimtex.texlivePackage = texLive;
 }
