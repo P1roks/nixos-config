@@ -2,10 +2,12 @@
 {
   boot.initrd = {
     kernelModules = [ "nvidia" ];
-    luks.devices = {
-      crypted = {
-        device = "/dev/disk/by-uuid/96de9cd5-2227-4372-bbd8-124969e521fd";
-        preLVM = true;
+    luks = {
+      devices = {
+        crypted = {
+          device = "/dev/disk/by-uuid/96de9cd5-2227-4372-bbd8-124969e521fd";
+          preLVM = true;
+        };
       };
     };
   };

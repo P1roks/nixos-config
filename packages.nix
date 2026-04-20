@@ -66,10 +66,12 @@ in
     neofetch
     rofi
     vesktop
+    signal-desktop
     scrot
     cryptsetup
     (builtins.getFlake "github:youwen5/zen-browser-flake").packages.${builtins.currentSystem}.default
-    gemini-cli-bin
+    gemini-cli-bin-own
+    pass
     # word processing
     libreoffice-qt6-fresh
     hunspell

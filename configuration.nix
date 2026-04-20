@@ -53,6 +53,7 @@
       exfat = true;
       ntfs = true;
     };
+    kernelPackages = pkgs.linuxPackages_6_19;
   };
 
   networking = {
@@ -145,6 +146,8 @@
       middleEmulation = false;
     };
   };
+
+  services.passSecretService.enable = true;
   
   services.picom = {
     enable = true;
@@ -213,6 +216,12 @@
     dconf.enable = true;
     gamemode.enable = true;
     fish.enable = true;
+
+    gnupg.agent = {
+      enable = true;
+      pinentryPackage = pkgs.pinentry-qt;
+      enableSSHSupport = true;
+    };
 
     git = { # TODO: investigate changing to jj
       enable = true;

@@ -7,5 +7,8 @@
     (final: prev: {
       notblood = pkgs.callPackage ./notblood.nix { inherit pkgs; };
     })
+    (final: prev: {
+      gemini-cli-bin-own = pkgs.callPackage ./gemini-cli-own.nix { inherit pkgs; };
+    })
   ];
 }

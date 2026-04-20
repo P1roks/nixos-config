@@ -448,6 +448,7 @@ in
           emmet_ls.enable = true;
           texlab.enable = true;
           pyright.enable = true;
+          jdtls.enable = true;
 
           hls = {
             enable = true;
