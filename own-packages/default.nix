@@ -2,13 +2,13 @@
 {
   nixpkgs.overlays = [
     (final: prev: {
-      nblood = pkgs.callPackage ./nblood.nix { inherit pkgs; };
+      nblood = final.callPackage ./nblood.nix { inherit pkgs; };
     })
     (final: prev: {
-      notblood = pkgs.callPackage ./notblood.nix { inherit pkgs; };
+      notblood = final.callPackage ./notblood.nix { inherit pkgs; };
     })
     (final: prev: {
-      gemini-cli-bin-own = pkgs.callPackage ./gemini-cli-own.nix { inherit pkgs; };
+      gemini-cli-bin-own = final.callPackage ./gemini-cli-own.nix { inherit pkgs; };
     })
   ];
 }

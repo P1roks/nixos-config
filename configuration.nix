@@ -1,16 +1,13 @@
-{ pkgs, options, ... }:
+{ pkgs, options, inputs, ... }:
 {
   imports = [
-    ./hardware-configuration.nix
-    ./home-manager
-    ./nixvim.nix
     ./dwmblocks
     ./fonts
     ./own-packages
+    ./nixvim.nix
     ./systemd.nix
     ./packages.nix
     ./overlays.nix
-    ./machine.nix # this file is a symlink to a machine-specific config
   ];
 
   nix = {
@@ -22,9 +19,17 @@
 
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
+      extra-substituters = [
+        "https://nix-community.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs"
+      ];
     };
 
-    nixPath = options.nix.nixPath.default ++ [
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    nixPath = [
+      "nixpkgs=${inputs.nixpkgs}"
       "nixpkgs-overlays=/etc/nixos/overlays-compat/"
     ];
   };
@@ -88,7 +93,7 @@
       enable = true;
       package = pkgs.dwm.overrideAttrs (finalAtrs: previousAttrs: {
         patches = [
-          /etc/nixos/patches/dwm.patch
+          ./patches/dwm.patch
         ];
         buildInputs = previousAttrs.buildInputs ++ [pkgs.imlib2];
         version = "6.5";
@@ -115,7 +120,7 @@
     };
 
     patches = [
-      /etc/nixos/patches/dwmblocks.patch
+      ./patches/dwmblocks.patch
     ];
 
   };
@@ -147,7 +152,7 @@
     };
   };
 
-  services.passSecretService.enable = true;
+  # services.passSecretService.enable = true;
   
   services.picom = {
     enable = true;
@@ -217,11 +222,11 @@
     gamemode.enable = true;
     fish.enable = true;
 
-    gnupg.agent = {
-      enable = true;
-      pinentryPackage = pkgs.pinentry-qt;
-      enableSSHSupport = true;
-    };
+    # gnupg.agent = {
+    #   enable = true;
+    #   pinentryPackage = pkgs.pinentry-qt;
+    #   enableSSHSupport = true;
+    # };
 
     git = { # TODO: investigate changing to jj
       enable = true;

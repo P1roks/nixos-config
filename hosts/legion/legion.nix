@@ -1,7 +1,7 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 {
   boot.initrd = {
-    kernelModules = [ "nvidia" ];
+    kernelModules = [ "i915" ];
     luks = {
       devices = {
         crypted = {
@@ -18,46 +18,29 @@
   ];
 
   hardware.nvidia = {
-    open = false;
-    modesetting.enable = false;
+    open = true;
+    modesetting.enable = true;
     nvidiaSettings = true;
+    powerManagement = {
+      enable = true;
+      finegrained = true;
+    };
     prime = {
       offload = {
         enable = true;
         enableOffloadCmd = true;
       };
-      # sync.enable = true;
-      intelBusId = "PCI:00:02:0";
-      nvidiaBusId = "PCI:01:00:0";
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
     };
   };
-  # Some nix setting is implicitly setting nvidia-drm.modeset=1
-  # and due to early KMS activation (whatever that means)
-  # that borks my system
-  # this setting is explicitly setting modeset=0
-  # This should've never been done
-  # But it was, oh well
-  boot.kernelParams = lib.mkForce [
-    "loglevel=4"
-    "lsm=landlock,yama,bpf"
-    "nvidia-drm.modeset=0"
-    "nvidia-drm.fbdev=1"
-  ];
 
-  boot.extraModprobeConfig = ''
-    options nvidia-drm modeset=0
-    options nvidia NVreg_DynamicPowerManagement=0x02
-  '';
+  # boot.kernelParams = [
+  #   "ibt=off"
+  # ];
 
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
-  # boot.extraModprobeConfig = ''
-  #   blacklist nouveau
-  #   options nouveau modeset=0
-  # '';
-
-  # boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
-  
   services.udev.extraRules =
   let disableNvidia = ''
     # Remove NVIDIA USB xHCI Host Controller devices, if present

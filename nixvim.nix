@@ -1,15 +1,5 @@
 { pkgs, ... }:
-let
-  nixvim = import (builtins.fetchGit {
-    url = "https://github.com/nix-community/nixvim";
-    ref = "nixos-25.11";
-  });
-in
 {
-  imports = [
-    nixvim.nixosModules.nixvim
-  ];
-
   programs.nixvim = {
     enable = true;
     enableMan = true;
@@ -458,7 +448,7 @@ in
           nixd = {
             enable = true;
             settings = {
-              nixpkgs.expr = "import <nixpkgs> {}";
+              nixpkgs.expr = "import inputs.nixpkgs {}";
               formatting.command = [ "nixpkgs-fmt" ];
             };
           };

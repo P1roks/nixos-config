@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
  texLive =  
     pkgs.texliveMedium.withPackages (pkgs: with pkgs; [
@@ -36,7 +36,7 @@ in
   imports = [ ./scripts ];
 
   environment.systemPackages =
-  with pkgs; [
+  with pkgs; with inputs; [
     # nix related
     nix-tree
     nixpkgs-fmt
@@ -69,7 +69,8 @@ in
     signal-desktop
     scrot
     cryptsetup
-    (builtins.getFlake "github:youwen5/zen-browser-flake").packages.${builtins.currentSystem}.default
+    zen-browser.packages.${pkgs.system}.default
+    helium.packages.${pkgs.system}.default
     gemini-cli-bin-own
     pass
     # word processing
@@ -166,5 +167,5 @@ in
     (writeScriptBin "dmenu" ''exec ${rofi}/bin/rofi -dmenu -i "$@"'')
   ];
 
-  programs.nixvim.plugins.vimtex.texlivePackage = texLive;
+  # programs.nixvim.plugins.vimtex.texlivePackage = texLive;
 }
