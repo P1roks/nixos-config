@@ -1,4 +1,4 @@
-{ pkgs, options, inputs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = [
     ./dwmblocks

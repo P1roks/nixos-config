@@ -18,7 +18,7 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixvim, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nixvim,  ... }@inputs: {
     overlays = (import ./overlays.nix { }).nixpkgs.overlays
                 ++ (import ./own-packages/default.nix { inherit (nixpkgs) pkgs; }).nixpkgs.overlays;
 
@@ -30,6 +30,16 @@
           home-manager.nixosModules.home-manager
           nixvim.nixosModules.nixvim
           ./hosts/legion/default.nix
+        ];
+      };
+
+      workstation = nixpkgs.lib.nixosSystem {
+        system="x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          home-manager.nixosModules.home-manager
+          nixvim.nixosModules.nixvim
+          ./hosts/workstation/default.nix
         ];
       };
     };
